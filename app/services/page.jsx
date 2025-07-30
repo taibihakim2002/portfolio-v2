@@ -17,7 +17,7 @@ const mainServices = [
         icon: <Heart className="h-8 w-8 text-primary" />,
         description: "أؤمن بأن يوم الزفاف هو فصل فريد في قصة حبكم، ومهمتي هي توثيق هذا الفصل بكل تفاصيله العفوية والمؤثرة. أركز على التقاط المشاعر الحقيقية، من نظرة الحب الأولى حتى دمعة الفرح، لإنشاء ذكريات سينمائية تدوم مدى الحياة.",
         features: ["تغطية شاملة من التحضيرات إلى نهاية الحفل", "جلسة تصوير خاصة للعروسين", "صور عالية الدقة ومعالجة احترافية", "تسليم سريع في معرض صور رقمي خاص"],
-        image: "https://images.unsplash.com/photo-1523438097201-512ae7d59c44?q=80&w=1632&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=1740&auto=format&fit=crop",
         align: "right"
     },
     {
@@ -25,18 +25,22 @@ const mainServices = [
         icon: <Aperture className="h-8 w-8 text-primary" />,
         description: "جلسة البورتريه هي أكثر من مجرد صورة، إنها استكشاف للشخصية. سواء كانت جلسة شخصية، عائلية، أو مهنية، أعمل على خلق أجواء مريحة تبرز جمالكم الطبيعي وتلتقط جوهركم الحقيقي في صور فنية ومعبرة.",
         features: ["جلسات تصوير داخلية أو خارجية", "استشارة لاختيار الموقع والأزياء", "صور متعددة الأوضاع والأساليب", "مرونة في عدد الصور النهائية"],
-        image: "https://images.unsplash.com/photo-1581338834611-23e47d58a368?q=80&w=1587&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1587&auto=format&fit=crop",
         align: "left"
     },
     {
-        title: "تصوير منتجات",
+        title: "  تصوير منتجات",
         icon: <ShoppingBag className="h-8 w-8 text-primary" />,
         description: "في عالم التجارة الإلكترونية، الصورة هي واجهة علامتك التجارية. أقدم خدمات تصوير منتجات احترافية تبرز جودة وتفاصيل منتجاتكم، وتجذب انتباه العملاء المستهدفين بصور نظيفة، أنيقة، وعالية الجودة.",
         features: ["صور بخلفيات بيضاء أو ملونة", "تصوير إبداعي للمنتجات في سياقها", "إضاءة احترافية تبرز التفاصيل", "صور محسّنة للاستخدام على الويب والمطبوعات"],
-        image: "https://images.unsplash.com/photo-1620912189837-e54c15734040?q=80&w=1587&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=1740&auto=format&fit=crop",
         align: "right"
     }
 ];
+
+
+
+
 
 // --- بيانات الخدمات الإضافية ---
 const additionalServices = [

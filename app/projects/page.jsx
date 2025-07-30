@@ -120,7 +120,7 @@ export default function ProjectsPage() {
             <Header />
             <main className="bg-background">
                 <section className="relative py-28 md:py-40 text-center overflow-hidden">
-                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1483424122340-3e29b02a2102?q=80&w=1740&auto=format&fit=crop')] bg-cover bg-center animate-ken-burns"></div>
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?q=80&w=1740&auto=format&fit=crop')] bg-cover bg-center animate-ken-burns"></div>
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
                     <div className="container mx-auto px-4 relative z-10">
                         <motion.h1 className="font-display text-5xl md:text-7xl font-extrabold text-white" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>

@@ -86,7 +86,7 @@ function HeroSection() {
                 style={{ y, opacity }}
             >
                 <Image
-                    src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1740&auto=format&fit=crop"
+                    src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1632&auto=format&fit=crop"
                     alt="خلفية طبيعية ملهمة"
                     layout="fill"
                     objectFit="cover"
@@ -323,7 +323,6 @@ function ArtisticShots() {
     );
 }
 
-// ---------- نبذة عني ----------
 function AboutMeSection({ profile, isLoading }) {
     if (isLoading) {
         return (
@@ -347,7 +346,9 @@ function AboutMeSection({ profile, isLoading }) {
     if (!profile) return null;
 
     return (
-        <section className="w-full py-24 bg-background">
+        
+        <section className="w-full py-24 bg-background overflow-x-hidden">
+        
             <div className="container mx-auto px-4">
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                     <motion.div 

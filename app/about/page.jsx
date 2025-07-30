@@ -6,6 +6,7 @@ import Header from '@/components/global/Header';
 import Footer from '@/components/global/Footer';
 import { Button } from '@/components/ui/button';
 import { Camera, Eye, Heart, Instagram, Linkedin, Twitter, Award, Calendar, Rocket } from 'lucide-react';
+import Link from "next/link";
 
 // --- بيانات وهمية للخط الزمني ---
 const timelineEvents = [
@@ -181,9 +182,11 @@ export default function AboutPage() {
                     <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter className="h-7 w-7" /></a>
                     <a href="#" className="text-muted-foreground hover:text-primary transition-colors"><Linkedin className="h-7 w-7" /></a>
                  </div>
+                 <Link href="/projects">
                  <Button size="lg" className="font-bold">
                     اكتشف معرض أعمالي
                  </Button>
+                 </Link>
             </div>
         </section>
 
