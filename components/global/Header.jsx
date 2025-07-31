@@ -63,7 +63,7 @@ export default function Header() {
                 </nav>
 
                 <div className="flex items-center gap-4">
-                    <Link href="/booking" className="hidden md:block">
+                    <Link href="/book" className="hidden md:block">
                         <Button>احجز الآن<ArrowLeft className="mr-2 h-4 w-4" /></Button>
                     </Link>
 
@@ -86,7 +86,7 @@ export default function Header() {
                                             {link.label}
                                         </Link>
                                     ))}
-                                    <Link href="/booking" className="w-full mt-4">
+                                    <Link href="/book" className="w-full mt-4">
                                         <Button size="lg" className="w-full">احجز الآن<ArrowLeft className="mr-2 h-4 w-4" /></Button>
                                     </Link>
                                 </nav>
