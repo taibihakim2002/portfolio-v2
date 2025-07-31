@@ -245,7 +245,7 @@ export default function EditProjectPage({ params }) {
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-4">
-                                    <div className="space-y-2">
+                                    {/* <div className="space-y-2">
                                         <Label>إضافة فيديوهات</Label>
                                         <div className="flex gap-2">
                                             <div className="relative flex-grow">
@@ -254,7 +254,7 @@ export default function EditProjectPage({ params }) {
                                             </div>
                                             <Button type="button" onClick={addVideo}>إضافة</Button>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className="space-y-2">
                                         <Label>إضافة صور</Label>
                                         <div className="w-full p-8 border-2 border-dashed border-border rounded-lg text-center cursor-pointer hover:bg-card/80 transition-colors">
