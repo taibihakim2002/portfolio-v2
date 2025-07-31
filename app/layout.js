@@ -2,6 +2,7 @@ import { Tajawal, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ProfileProvider } from "./contexts/ProfileProvider";
+import KeepAlive from "@/components/global/KeepAlive";
 
 // إعداد خط تجول للنصوص الأساسية
 const tajawal = Tajawal({
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
           closeButton 
           style={{ zIndex: 9999 }}
         />
+         <KeepAlive />
         </ProfileProvider>
       </body>
     </html>
