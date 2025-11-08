@@ -4,39 +4,37 @@
 
 @layer base {
   :root {
-    /* تم تحويل لوحة الألوان المقترحة إلى متغيرات HSL */
-    --background: 0 0% 10%; /* #1a1a1a */
-    --foreground: 0 0% 96.1%; /* #f5f5f5 */
+    /* هوية بصرية لمطور مواقع */
+    --background: 220 26% 8%; /* #0d1117 */
+    --foreground: 213 42% 97%; /* #f0f6fc */
 
-    --card: 0 0% 16.5%; /* #2a2a2a */
-    --card-foreground: 0 0% 96.1%; /* #f5f5f5 */
+    --card: 220 21% 12%; /* #161b22 */
+    --card-foreground: 213 42% 97%; /* #f0f6fc */
 
-    --popover: 0 0% 16.5%; /* #2a2a2a */
-    --popover-foreground: 0 0% 96.1%; /* #f5f5f5 */
+    --popover: 220 21% 12%; /* #161b22 */
+    --popover-foreground: 213 42% 97%; /* #f0f6fc */
 
-    --primary: 44.8 93.4% 51.2%; /* #eab308 */
-    --primary-foreground: 0 0% 10%; /* نص داكن فوق اللون الذهبي */
+    --primary: 217 91% 60%; /* #3b82f6 */
+    --primary-foreground: 0 0% 100%; /* #ffffff */
 
-    --secondary: 0 0% 25.1%; /* #404040 */
-    --secondary-foreground: 0 0% 96.1%; /* #f5f5f5 */
+    --secondary: 262 83% 67%; /* #8b5cf6 */
+    --secondary-foreground: 0 0% 100%; /* #ffffff */
 
-    --muted: 0 0% 25.1%; /* #404040 */
-    --muted-foreground: 0 0% 63.9%; /* #a3a3a3 */
+    --muted: 220 9% 20%; /* #1f2937 */
+    --muted-foreground: 220 9% 65%; /* #9ca3af */
 
-    --accent: 0 0% 25.1%; /* #404040 */
-    --accent-foreground: 0 0% 96.1%; /* #f5f5f5 */
+    --accent: 189 86% 56%; /* #22d3ee */
+    --accent-foreground: 220 26% 8%; /* #0d1117 */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84% 63%; /* #ef4444 */
+    --destructive-foreground: 0 0% 100%; /* #ffffff */
 
-    --border: 0 0% 25.1%; /* #404040 */
-    --input: 0 0% 25.1%; /* #404040 */
-    --ring: 44.8 93.4% 51.2%; /* #eab308 */
+    --border: 215 15% 20%; /* #30363d */
+    --input: 220 9% 20%; /* #1f2937 */
+    --ring: 217 91% 60%; /* #3b82f6 */
 
     --radius: 0.5rem;
   }
-
-  /* لا حاجة لقاعدة .dark منفصلة لأن التصميم داكن بشكل افتراضي */
 }
 
 @layer base {

@@ -1,101 +1,109 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { ArrowLeft, Camera, Menu } from "lucide-react";
-import Link from "next/link";
-import { useProfile } from "@/app/contexts/ProfileProvider";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { IoMenu } from "react-icons/io5";
+import { GoArrowUpRight } from "react-icons/go";
 
 export default function Header() {
-    const { profile, isLoading } = useProfile();
-    const [scrolled, setScrolled] = useState(false);
-    
-    useEffect(() => {
-        const handleScroll = () => { setScrolled(window.scrollY > 10); };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const navLinks = [
-        { label: "الرئيسية", href: "/" },
-        { label: "المشاريع", href: "/projects" },
-        { label: "من أنا", href: "/about" },
-        { label: "الخدمات", href: "/services" },
-        { label: "اتصل بي", href: "/contact" },
-    ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-    return (
-        <motion.header 
-            className={cn("fixed top-0 left-0 right-0 z-50 transition-all duration-300", scrolled ? "bg-background/80 backdrop-blur-sm border-b border-border" : "bg-transparent")} 
-            initial={{ y: -100 }} 
-            animate={{ y: 0 }} 
-            transition={{ duration: 0.5 }}
-        >
-            <div className="container mx-auto flex items-center justify-between h-20 px-4">
-                {/* --- START: تم تعديل الشعار ليصبح رابطًا --- */}
-                <Link href="/" className="flex items-center gap-2">
-                    <Camera className="h-6 w-6 text-primary" />
-                    {isLoading ? (
-                        <Skeleton className="h-6 w-32" />
-                    ) : (
-                        // --- START: تم تغيير الخط هنا ---
-                        <span className="font-display text-xl font-bold">{profile?.name || 'اسم المصور'}</span>
-                        // --- END: تم تغيير الخط هنا ---
-                    )}
-                </Link>
-                {/* --- END: تم تعديل الشعار ليصبح رابطًا --- */}
+  const menuItems = ["Skills", "Services", "Projects", "Contact"];
 
-                {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                </nav>
+  const menuVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
 
-                <div className="flex items-center gap-4">
-                    <Link href="/book" className="hidden md:block">
-                        <Button>احجز الآن<ArrowLeft className="mr-2 h-4 w-4" /></Button>
-                    </Link>
+  const menuItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { ease: "easeOut", duration: 0.5 } },
+  };
 
-                    {/* --- START: تمت إضافة القائمة الجانبية للهاتف --- */}
-                    <div className="md:hidden">
-                        <Sheet>
-                            <SheetTrigger asChild>
-                                <Button variant="outline" size="icon">
-                                    <Menu className="h-5 w-5" />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side="right" className="w-full max-w-xs p-8">
-                                <nav className="flex flex-col items-center gap-8 mt-12">
-                                    {navLinks.map((link) => (
-                                        <Link
-                                            key={link.href}
-                                            href={link.href}
-                                            className="text-xl text-muted-foreground hover:text-primary transition-colors duration-300"
-                                        >
-                                            {link.label}
-                                        </Link>
-                                    ))}
-                                    <Link href="/book" className="w-full mt-4">
-                                        <Button size="lg" className="w-full">احجز الآن<ArrowLeft className="mr-2 h-4 w-4" /></Button>
-                                    </Link>
-                                </nav>
-                            </SheetContent>
-                        </Sheet>
-                    </div>
-                    {/* --- END: تمت إضافة القائمة الجانبية للهاتف --- */}
-                </div>
-            </div>
-        </motion.header>
-    );
+  return (
+    <>
+      <motion.header 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="flex justify-between items-center h-[80px] w-full fixed top-0 z-[100] px-6 md:px-20 text-white"
+      >
+        <div
+          className={`absolute inset-0 transition-all duration-300 ${
+            isScrolled ? "bg-background/50 backdrop-blur-lg" : "bg-transparent"
+          }`}
+        ></div>
+        <div className="relative z-10">
+          <h2 className="font-bold text-lg tracking-wider">TAIBI HAKIM</h2>
+        </div>
+        <nav className="relative z-10">
+          <ul className="gap-12 hidden lg:flex uppercase text-sm font-semibold">
+            {menuItems.map((item) => (
+              <li key={item} className="relative group">
+                <a href={`#${item.toLowerCase()}`}>{item}</a>
+                <span className="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-main transition-all duration-300 group-hover:w-full"></span>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="relative z-10 text-2xl lg:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <AnimatePresence mode="wait">
+              {isMenuOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                  <GoArrowUpRight />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                  <IoMenu />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
+        </div>
+      </motion.header>
+
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
+            animate={{ opacity: 1, clipPath: 'circle(150% at 100% 0)' }}
+            exit={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 bg-background z-[99] flex items-center justify-center"
+          >
+            <motion.ul
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-col gap-8 text-center"
+            >
+              {menuItems.map((item) => (
+                <motion.li key={item} variants={menuItemVariants}>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="text-4xl font-bold text-gray-300 hover:text-main transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }

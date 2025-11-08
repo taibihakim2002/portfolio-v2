@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"], // مهم جدًا لتفعيل الوضع الداكن
+  darkMode: ["class"],
   content: [
     './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        main: "hsl(var(--primary))", // Custom color alias for your design
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -58,8 +59,10 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["var(--font-tajawal)", "sans-serif"],
-        display: ["var(--font-poppins)", "sans-serif"], // خط إضافي للعناوين
+        sans: ["var(--font-poppins)", "sans-serif"], // Set Poppins as the default font
+      },
+      backgroundImage: {
+        'hero-bg': "url('/imgs/your-background-image.jpg')", // Add your background image paths here
       },
       keyframes: {
         "accordion-down": {
