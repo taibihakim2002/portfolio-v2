@@ -13,7 +13,11 @@ import { IoMenu } from "react-icons/io5";
 import { GoArrowRight, GoArrowUpRight, GoChevronLeft, GoChevronRight, GoX } from "react-icons/go";
 import Header from "@/components/global/Header";
 import Rights from "@/components/global/Rights";
-
+import {
+  FiPhone, FiMail, FiMapPin, FiGithub, FiLinkedin, FiTwitter,
+  FiCopy, FiCheck, FiClock, FiDownload,
+  FiArrowRight
+} from "react-icons/fi";
 // --- Dummy Project Data ---
 const projects = [
   {
@@ -205,7 +209,8 @@ function Hero() {
     if (inView) controls.start("visible");
   }, [controls, inView]);
 
-  const text = "Creative Designer & Developer";
+  const text = "Full Stack Developer";
+
   const words = text.split(" ");
 
   const containerVariants = {
@@ -291,7 +296,7 @@ function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl text-main font-semibold tracking-[0.2em] mb-4 normal-case"
             >
-              Taibi Abdelhakim
+              TAIBI ABDELHAKIM
             </motion.p>
 
             <motion.h1
@@ -320,13 +325,13 @@ function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.2 }}
-              className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 mt-8 normal-case"
-            >
-              I design and build beautiful, high-performance digital experiences from concept to code.
-            </motion.p>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, delay: 2.2 }}
+  className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 mt-8 normal-case"
+>
+  I build complete, scalable, and high-performance web applications using the MERN Stack — from backend architecture to polished front-end experiences.
+</motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -627,106 +632,223 @@ function GlowCard({ skill, i }) {
   );
 }
 
+
 function Skills() {
   const controls = useAnimation();
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.25 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
   const [active, setActive] = useState("All");
+  const reduce = useReducedMotion();
 
-  useEffect(() => {
-    if (inView) controls.start("visible");
-  }, [controls, inView]);
+  useEffect(() => { if (inView) controls.start("visible"); }, [controls, inView]);
 
-  const filtered = active === "All" ? SKILLS : SKILLS.filter(s => s.group === active);
+  // ✅ استخدم بياناتك الحالية
+  // توقع: CATEGORIES (["All", ...]) و SKILLS ([{name, group, level, icon, tags}...])
+  const filtered = useMemo(
+    () => (active === "All" ? SKILLS : SKILLS.filter(s => s.group === active)),
+    [active]
+  );
 
   return (
-    <section id="skills" className="relative z-10 bg-[#0e0e0f] py-20">
-      {/* خلفية حديثة (شبكة + ضوء) */}
+    <section id="skills" className="relative overflow-hidden bg-[#0b0b0c] py-24">
+      {/* ========= خلفية عصرية (شبكة + هالات + وميض) ========= */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(60rem 60rem at 20% -10%, rgba(99,102,241,.18), transparent 60%), radial-gradient(50rem 50rem at 80% 10%, rgba(16,185,129,.16), transparent 55%)",
-        }}
+        className={[
+          "pointer-events-none absolute inset-0 opacity-[0.35]",
+          "[background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)]",
+          "[background-size:32px_32px]",
+          reduce ? "" : "animate-grid-move",
+        ].join(" ")}
       />
-      <div className="absolute inset-0 opacity-[0.06] bg-[url('data:image/svg+xml;utf8,\
-        <svg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2716%27 viewBox=%270 0 16 16%27>\
-        <path fill=%27%23ffffff%27 fill-opacity=%270.7%27 d=%27M0 15.5H16v1H0zM15.5 0v16h1V0z%27 /></svg>')]"/>
-      
-      <div className="relative text-white px-6 sm:px-14 md:px-20 max-w-7xl mx-auto">
-        {/* العنوان */}
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter">Tools I Craft With</h2>
-          <p className="text-gray-400 mt-3">Modern stack. Minimal fluff. Real usage.</p>
-        </motion.div>
+      <div aria-hidden className="pointer-events-none absolute inset-0 mix-blend-screen opacity-25 [mask-image:radial-gradient(60%_60%_at_50%_50%,black,transparent)]">
+        <div className={["absolute -inset-[30%] rotate-12 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.08)_50deg,transparent_120deg)]", reduce ? "" : "animate-slow-rotate"].join(" ")} />
+        <div className={["absolute -inset-[30%] -rotate-6 bg-[conic-gradient(from_180deg,transparent_0deg,rgba(234,179,8,0.08)_40deg,transparent_100deg)]", reduce ? "" : "animate-slow-rotate-rev"].join(" ")} />
+      </div>
+      <div aria-hidden className="pointer-events-none absolute -inset-24 blur-3xl opacity-25">
+        <div className={["absolute left-1/5 top-1/5 w-2/3 h-2/3 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(234,179,8,0.16),transparent_60%)]", reduce ? "" : "animate-aurora"].join(" ")} />
+        <div className={["absolute right-1/6 bottom-1/6 w-1/2 h-1/2 rounded-full bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.08),transparent_60%)]", reduce ? "" : "animate-aurora-slow"].join(" ")} />
+      </div>
+      {/* ========= /الخلفية ========= */}
 
-        {/* فلاتر الفئات */}
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={controls}
-          variants={{
-            hidden: { opacity: 0, y: 12 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-          }}
-          className="flex flex-wrap items-center justify-center gap-2 mb-10"
-        >
-          {CATEGORIES.map((c) => {
-            const activeChip = active === c;
-            return (
-              <button
-                key={c}
-                onClick={() => setActive(c)}
-                className={`relative rounded-full px-4 py-2 text-sm transition
-                  ${activeChip ? "text-black" : "text-gray-300 hover:text-white"}`}
-              >
-                {/* خلفية متدرجة للفِيشة النشطة */}
-                <span
-                  className={`absolute inset-0 rounded-full -z-10 transition
-                    ${activeChip ? "bg-gradient-to-r from-cyan-300 via-yellow-300 to-fuchsia-300" : "bg-white/5 border border-white/10"}`}
-                />
-                {c}
-              </button>
-            );
-          })}
-        </motion.div>
-
-        {/* شبكة البطاقات المتوهجة */}
-        <motion.div
-          initial="hidden"
-          animate={controls}
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {filtered.map((skill, i) => (
-            <GlowCard key={skill.name} skill={skill} i={i} />
-          ))}
-        </motion.div>
-
-        {/* شريط أوامر ديكوري حديث */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12">
+        {/* هيدر مشع */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-14 mx-auto max-w-3xl"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-4">
-            <div className="text-xs text-gray-400 mb-2">Quick Command</div>
-            <div className="flex items-center gap-2 text-sm">
-              <kbd className="px-2 py-1 rounded-md border border-white/15 bg-black/40">npx</kbd>
-              <span className="opacity-80">create-next-app</span>
-              <span className="opacity-40">--ts --tailwind --eslint --app</span>
-            </div>
-          </div>
+          <span className="inline-flex items-center gap-2 text-[12px] tracking-widest uppercase text-white/60">
+            <span className="size-1.5 rounded-full bg-yellow-300/80" />
+            My Stack
+          </span>
+          <h2 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight">
+            Skills, <span className="bg-gradient-to-r from-yellow-300 via-rose-300 to-cyan-300 bg-clip-text text-transparent">Tools</span> & Workflow
+          </h2>
+          <p className="text-white/60 mt-3 max-w-2xl mx-auto">
+            Carefully picked technologies for speed, accessibility, and a delightful developer experience.
+          </p>
         </motion.div>
+
+        {/* تخطيط حديث: شريط فلاتر جانبي sticky + شبكة بطاقات */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* فلاتر جانبية */}
+          <aside className="lg:col-span-3">
+            <div className="lg:sticky lg:top-24 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4">
+              <div className="text-xs text-white/60 mb-2">Filter by</div>
+              <div className="flex lg:flex-col flex-wrap gap-2">
+                {CATEGORIES.map((c) => {
+                  const activeChip = active === c;
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => setActive(c)}
+                      className={[
+                        "relative w-fit lg:w-full rounded-xl px-4 py-2 text-sm transition focus:outline-none text-left",
+                        activeChip ? "text-black" : "text-white/85 hover:text-white",
+                      ].join(" ")}
+                    >
+                      <span
+                        className={[
+                          "absolute inset-0 -z-10 rounded-xl border border-white/10 bg-white/5",
+                          activeChip && "bg-gradient-to-r from-cyan-300 via-yellow-300 to-fuchsia-300 animate-gradient-x",
+                        ].join(" ")}
+                      />
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* أساطير خفيفة */}
+              <div className="mt-6 grid grid-cols-2 gap-2 text-[11px] text-white/60">
+                <div className="flex items-center gap-2">
+                  <span className="inline-block size-2 rounded-full bg-emerald-400/80" />
+                  <span>Core</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block size-2 rounded-full bg-sky-400/80" />
+                  <span>UI/UX</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block size-2 rounded-full bg-fuchsia-400/80" />
+                  <span>Tools</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block size-2 rounded-full bg-yellow-300/80" />
+                  <span>Perf</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* البطاقات */}
+          <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={controls}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}
+            className="lg:col-span-9 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            {filtered.map((skill, i) => {
+              const lvl = Math.max(0, Math.min(skill.level ?? 80, 100));
+              return (
+                <motion.div
+                  key={skill.name + i}
+                  variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+                  whileHover={{ y: -4 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 22 }}
+                  className="relative group rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-5 overflow-hidden"
+                >
+                  {/* وهج محيطي عند التحويم */}
+                  <span className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300" style={{
+                    background: "radial-gradient(600px 220px at 50% 100%, rgba(234,179,8,0.14), transparent 42%)"
+                  }} />
+
+                  {/* رأس البطاقة */}
+                  <div className="flex items-start gap-3">
+                    <div className="size-12 grid place-items-center rounded-xl bg-white/[0.07] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                      <div className="scale-110 opacity-90">{skill.icon}</div>
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-lg font-semibold tracking-tight">{skill.name}</h3>
+                        {skill.group && (
+                          <span className="text-[11px] px-2 py-0.5 rounded-full border border-white/10 text-white/70">{skill.group}</span>
+                        )}
+                      </div>
+                      {/* وصف صغير اختياري: ضع skill.desc إن كان موجودًا */}
+                      {skill.desc && <p className="text-[13px] text-white/60 mt-1 line-clamp-2">{skill.desc}</p>}
+                    </div>
+                  </div>
+
+                  {/* حلقة التقدّم + أرقام */}
+                  <div className="mt-5 flex items-center gap-4">
+                    <div
+                      className="relative size-16 rounded-full grid place-items-center"
+                      style={{
+                        background: `conic-gradient(var(--ring, rgba(234,179,8,0.9)) ${lvl * 3.6}deg, rgba(255,255,255,0.08) ${lvl * 3.6}deg)`,
+                      }}
+                    >
+                      <div className="absolute inset-[4px] rounded-full bg-black/60 backdrop-blur-sm border border-white/10" />
+                      <div className="relative text-sm font-semibold">{lvl}%</div>
+                    </div>
+
+                    {/* شريط تقدّم خطي مع شِيمر */}
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between text-[12px] text-white/60 mb-1">
+                        <span>Proficiency</span>
+                        <span>{lvl}%</span>
+                      </div>
+                      <div className="relative h-2 rounded-full bg-white/10 overflow-hidden">
+                        <div
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-yellow-300 via-rose-300 to-cyan-300"
+                          style={{ width: `${lvl}%`, backgroundSize: "200% 100%", animation: "gradient-x 8s linear infinite" }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* وسوم */}
+                  {!!skill.tags?.length && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {skill.tags.slice(0, 6).map((t, idx) => (
+                        <span key={idx} className="text-[11px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70">{t}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* خط شيمر زخرفي */}
+                  <span className="pointer-events-none absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full shimmer-line" />
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </div>
+
+      {/* مفاتيح الحركة داخل نفس المكوّن */}
+      <style jsx global>{`
+        @keyframes grid-move { 0% { background-position: 0px 0px, 0px 0px; } 100% { background-position: 64px 64px, 64px 64px; } }
+        .animate-grid-move { animation: grid-move 18s linear infinite; }
+
+        @keyframes slow-rotate { to { transform: rotate(372deg); } }
+        @keyframes slow-rotate-rev { to { transform: rotate(-372deg); } }
+        .animate-slow-rotate { animation: slow-rotate 40s linear infinite; }
+        .animate-slow-rotate-rev { animation: slow-rotate-rev 48s linear infinite; }
+
+        @keyframes aurora { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(2%, -3%, 0) } }
+        @keyframes aurora-slow { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(-3%, 2%, 0) } }
+        .animate-aurora { animation: aurora 18s ease-in-out infinite; }
+        .animate-aurora-slow { animation: aurora-slow 26s ease-in-out infinite; }
+
+        @keyframes gradient-x { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        .animate-gradient-x { background-size: 200% 200%; animation: gradient-x 6s linear infinite; }
+
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        .shimmer-line { transform: translateX(-100%); animation: shimmer 3.6s ease-in-out infinite; }
+      `}</style>
     </section>
   );
 }
@@ -771,68 +893,87 @@ return (
 
 
 function Services() {
-    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-    const [expandedIndex, setExpandedIndex] = useState(null);
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
-    const serviceItems = [
-        { title: "Web & API Development", description: "Crafting responsive and high-performance applications from scratch." },
-        { title: "UI/UX Design", description: "Designing intuitive and beautiful user interfaces that users love." },
-        { title: "Performance Tuning", description: "Optimizing your site for speed and a seamless user experience." },
-        { title: "Full Stack Consulting", description: "Providing expert advice to improve your existing web projects." },
-    ];
+  // ✅ الخدمات المختارة + أوصاف احترافية موجزة
+  const serviceItems = [
+    {
+      title: "Full-Stack Web Applications",
+      description:
+        "Designing and shipping complete MERN applications — from data modeling and REST/GraphQL APIs to responsive React UIs and production deployments.",
+    },
+    {
+      title: "SaaS & Dashboard Systems",
+      description:
+        "Building subscription-based platforms, admin dashboards, analytics, multi-tenant setups, billing, roles & permissions, and audit-ready activity logs.",
+    },
+    {
+      title: "Performance & Optimization",
+      description:
+        "Improving Core Web Vitals, query performance, caching layers (Redis), CDN & image optimization, code splitting, and real-world load tuning.",
+    },
+    {
+      title: "Authentication & Security",
+      description:
+        "Implementing robust auth (JWT/Session, OAuth), RBAC, input validation, rate limiting, encryption, and security best practices across the stack.",
+    },
+  ];
 
-    return (
-        <section id="services" className="w-full py-24 relative z-10 bg-background flex flex-col items-center justify-center">
-            <div className="relative text-center mb-16 px-8">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8 }}
-                    className="text-5xl lg:text-7xl font-bold tracking-tighter"
+  return (
+    <section id="services" className="w-full py-24 relative z-10 bg-background flex flex-col items-center justify-center">
+      <div className="relative text-center mb-16 px-8">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-5xl lg:text-7xl font-bold tracking-tighter"
+        >
+          What I Offer
+        </motion.h2>
+      </div>
+
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+        className="w-full max-w-3xl"
+        onMouseLeave={() => setExpandedIndex(null)}
+      >
+        {serviceItems.map((item, index) => (
+          <motion.div
+            key={index}
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+            className="relative border-t border-white/10"
+            onHoverStart={() => setExpandedIndex(index)}
+          >
+            <h3 className="text-3xl font-bold tracking-tight p-8 cursor-pointer flex justify-between items-center">
+              <span>{item.title}</span>
+              <GoArrowUpRight
+                className={`transition-transform duration-300 ${
+                  expandedIndex === index ? "rotate-45 text-main" : "text-gray-600"
+                }`}
+              />
+            </h3>
+            <AnimatePresence>
+              {expandedIndex === index && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
                 >
-                    What I Offer
-                </motion.h2>
-            </div>
-            
-            <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-                className="w-full max-w-3xl"
-                onMouseLeave={() => setExpandedIndex(null)}
-            >
-                {serviceItems.map((item, index) => (
-                    <motion.div
-                        key={index}
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
-                        className="relative border-t border-white/10"
-                        onHoverStart={() => setExpandedIndex(index)}
-                    >
-                        <h3 className="text-3xl font-bold tracking-tight p-8 cursor-pointer flex justify-between items-center">
-                            <span>{item.title}</span>
-                            <GoArrowUpRight className={`transition-transform duration-300 ${expandedIndex === index ? 'rotate-45 text-main' : 'text-gray-600'}`} />
-                        </h3>
-                        <AnimatePresence>
-                            {expandedIndex === index && (
-                                <motion.div
-                                    initial={{ height: 0, opacity: 0 }}
-                                    animate={{ height: 'auto', opacity: 1 }}
-                                    exit={{ height: 0, opacity: 0 }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                                    className="overflow-hidden"
-                                >
-                                    <p className="px-8 pb-8 text-gray-400">
-                                        {item.description}
-                                    </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </section>
-    );
+                  <p className="px-8 pb-8 text-gray-400">{item.description}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
+  );
 }
 
 
@@ -1015,40 +1156,256 @@ function Works() {
 }
 
 
+
 function Contact() {
-    const controls = useAnimation();
-    const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const controls = useAnimation();
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  useEffect(() => { if (inView) controls.start("visible"); }, [controls, inView]);
 
-    useEffect(() => { if (inView) { controls.start("visible"); } }, [controls, inView]);
+  // === عدّل بياناتك هنا ===
+  const NAME = "Taibi Abdelhakim";
+  const EMAIL = "taibihakim2002@gmail.com";
+  const PHONE = "+213 555 000 000";       // ← غيّره
+  const WHATSAPP = "+213555000000";      // ← بدون مسافات/رموز
+  const LOCATION = "Algeria (Remote-friendly)";
+  const GITHUB = "https://github.com/your-username";
+  const LINKEDIN = "https://www.linkedin.com/in/your-username";
+  const TWITTER = "https://x.com/your-username";
+  const RESPONSE = "Typically replies within 24–48h";
 
-    return (
-        <section id="contact" className="w-full py-20 relative bg-background">
-            <div className="text-white px-14 md:px-20 flex flex-col  relative z-40">
-                <motion.div
-                    ref={ref}
-                    initial="hidden"
-                    animate={controls}
-                    variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.2 }} }}
-                    className="flex-1 flex flex-col items-center justify-center text-center"
-                >
-                    {/* ✨ Simplified contact section to be more direct and impactful */}
-                    <motion.h2 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 }} }} className="text-5xl lg:text-7xl font-bold tracking-tighter">
-                        Let's build something great.
-                    </motion.h2>
-                    <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 }} }} className="max-w-xl mt-4 text-lg text-gray-400">
-                        Have a project in mind or just want to say hello? My inbox is always open.
-                    </motion.p>
-                    <motion.a 
-                        href="mailto:taibihakim2002@gmail.com"
-                        variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 }} }}
-                        className="mt-8 inline-block bg-main text-black font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105"
-                    >
-                        taibihakim2002@gmail.com
-                    </motion.a>
-                </motion.div>
+  const [copied, setCopied] = useState(null);
+  const copy = async (key, value) => {
+    try {
+      await navigator.clipboard?.writeText(value);
+      setCopied(key);
+      setTimeout(() => setCopied(null), 1400);
+    } catch {}
+  };
+
+  const container = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
+  const item = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } };
+
+  // vCard (اختياري تحميل)
+  const vcardHref = useMemo(() => {
+    const vc = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      `FN:${NAME}`,
+      `TEL;TYPE=CELL:${PHONE}`,
+      `EMAIL;TYPE=INTERNET:${EMAIL}`,
+      `ADR;TYPE=HOME:;;;${LOCATION};;;`,
+      "END:VCARD",
+    ].join("\n");
+    return `data:text/vcard;charset=utf-8,${encodeURIComponent(vc)}`;
+  }, [NAME, PHONE, EMAIL, LOCATION]);
+
+  return (
+    <section id="contact" className="w-full py-24 relative bg-background overflow-hidden">
+      {/* خلفية Mesh + Grid + Noise */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(60rem 40rem at 15% 0%, rgba(234,179,8,.12), transparent 60%), radial-gradient(50rem 50rem at 85% 10%, rgba(99,102,241,.12), transparent 55%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[.25] [background-image:linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] [background-size:32px_32px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-25 [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22 viewBox=%220 0 72 72%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%222%22 stitchTiles=%22stitch%22/></filter><rect width=%2272%22 height=%2272%22 filter=%22url(%23n)%22 opacity=%220.12%22/></svg>')]"
+      />
+
+      <div className="relative z-10 text-white px-6 sm:px-12 max-w-7xl mx-auto">
+        {/* عنوان */}
+        <motion.div
+          ref={ref}
+          initial="hidden"
+          animate={controls}
+          variants={container}
+          className="text-center mb-14"
+        >
+          <motion.h2 variants={item} className="text-4xl md:text-6xl font-extrabold tracking-tight">
+            Let’s build something great.
+          </motion.h2>
+          <motion.p variants={item} className="max-w-2xl mx-auto mt-3 text-white/70">
+            Available for Full-Stack MERN projects, consulting, and performance work.
+          </motion.p>
+        </motion.div>
+
+        {/* تخطيط Split Glass */}
+        <motion.div
+          initial="hidden"
+          animate={controls}
+          variants={container}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-7"
+        >
+          {/* يسار: بطاقة معلومات زجاجية */}
+          <motion.div
+            variants={item}
+            className="lg:col-span-6 relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-6"
+          >
+            {/* رأس صغير */}
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-white/70">
+                <span className="size-2 rounded-full bg-emerald-400/80" />
+                <span>Contacts</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-white/60">
+                <FiClock className="opacity-80" />
+                <span>{RESPONSE}</span>
+              </div>
             </div>
-        </section>
-    );
+
+            {/* عناصر المعلومات */}
+            <div className="space-y-4">
+              {/* Email */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiMail /></span>
+                  <div className="min-w-0">
+                    <div className="text-sm text-white/60">Email</div>
+                    <a href={`mailto:${EMAIL}`} className="font-semibold break-all hover:underline">{EMAIL}</a>
+                  </div>
+                </div>
+                <button
+                  onClick={() => copy("email", EMAIL)}
+                  className="rounded-md border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
+                  aria-label="Copy email"
+                >
+                  {copied === "email" ? <FiCheck /> : <FiCopy />}
+                </button>
+              </div>
+
+              {/* Phone / WhatsApp */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiPhone /></span>
+                  <div className="min-w-0">
+                    <div className="text-sm text-white/60">Phone / WhatsApp</div>
+                    <div className="font-semibold">{PHONE}</div>
+                    <div className="mt-1 text-sm">
+                      <a href={`tel:${PHONE.replace(/\s+/g, "")}`} className="text-main hover:underline mr-3">Call</a>
+                      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-main hover:underline">WhatsApp</a>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => copy("phone", PHONE)}
+                  className="rounded-md border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
+                  aria-label="Copy phone"
+                >
+                  {copied === "phone" ? <FiCheck /> : <FiCopy />}
+                </button>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-start gap-3">
+                <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiMapPin /></span>
+                <div>
+                  <div className="text-sm text-white/60">Location</div>
+                  <div className="font-semibold">{LOCATION}</div>
+                </div>
+              </div>
+
+              {/* Socials */}
+              <div className="pt-2">
+                <div className="text-sm text-white/60 mb-2">Socials</div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                    <FiGithub /> GitHub
+                  </a>
+                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                    <FiLinkedin /> LinkedIn
+                  </a>
+                  <a href={TWITTER} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                    <FiTwitter /> X
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* يمين: CTA كبير */}
+          <motion.div
+            variants={item}
+            className="lg:col-span-6 relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-6 overflow-hidden"
+          >
+            {/* هالة خفيفة */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -inset-20 blur-3xl opacity-60"
+              style={{ background: "radial-gradient(40rem 22rem at 70% 20%, rgba(234,179,8,0.15), transparent 60%)" }}
+            />
+            <div className="relative">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[12px] text-white/70">
+                <span className="size-1.5 rounded-full bg-yellow-300/80" />
+                Open to new projects
+              </div>
+
+              <h3 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight">
+                Work with me on your next<br />full-stack MERN project.
+              </h3>
+              <p className="mt-3 text-white/70 max-w-xl">
+                From backend architecture and APIs to polished front-end UI — I deliver fast, scalable, and secure solutions.
+              </p>
+
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-main text-black px-5 py-3 font-semibold hover:shadow-[0_0_0_6px_rgba(234,179,8,0.15)] transition"
+                >
+                  <FiMail /> Email me
+                </a>
+                <a
+                  href={`https://wa.me/${WHATSAPP}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-5 py-3 font-semibold hover:border-main transition"
+                >
+                  <FiPhone /> WhatsApp
+                </a>
+                <a
+                  href={vcardHref}
+                  download={`${NAME.replace(/\s+/g, "_")}.vcf`}
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-5 py-3 font-semibold hover:border-main transition"
+                >
+                  Save Contact <FiArrowRight />
+                </a>
+              </div>
+
+              {/* شارات تقنية صغيرة */}
+              <div className="mt-5 flex flex-wrap gap-2 text-[12px] text-white/70">
+                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">MERN Stack</span>
+                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Full-Stack</span>
+                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">APIs</span>
+                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Performance</span>
+                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Security</span>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* CTA سفلي اختياري */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mt-14 text-center"
+        >
+          <a
+            href={`mailto:${EMAIL}`}
+            className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-lg font-semibold hover:border-main transition"
+          >
+            Start a project — let’s talk
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
 
 
