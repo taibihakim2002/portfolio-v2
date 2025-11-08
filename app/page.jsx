@@ -107,118 +107,103 @@ function Fixed({ id }) {
 
 
 
-// --- Section Components ---
+ function Background() {
+  const reduce = useReducedMotion();
 
+  return (
+    <>
+      {/* التدرّج الأساسي */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_50%_0%,rgba(120,119,198,0.25)_0%,rgba(0,0,0,0)_60%)]" />
+
+      {/* الشبكة المتحركة */}
+      <div
+        className={[
+          "pointer-events-none absolute inset-0 opacity-35",
+          "[background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)]",
+          "[background-size:32px_32px]",
+          reduce ? "" : "animate-grid-move",
+        ].join(" ")}
+      />
+
+      {/* Glow Beams (شرائط ضوء لطيفة) */}
+      <div
+        className="pointer-events-none absolute inset-0 mix-blend-screen opacity-30 [mask-image:radial-gradient(60%_60%_at_50%_50%,black,transparent)] overflow-hidden"
+        data-parallax
+      >
+        <div className={["absolute -inset-[30%] rotate-12",
+          "bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.08)_50deg,transparent_120deg)]",
+          reduce ? "" : "animate-slow-rotate",
+        ].join(" ")} />
+        <div className={["absolute -inset-[30%] -rotate-6",
+          "bg-[conic-gradient(from_180deg,transparent_0deg,rgba(234,179,8,0.08)_40deg,transparent_100deg)]",
+          reduce ? "" : "animate-slow-rotate-rev",
+        ].join(" ")} />
+      </div>
+
+      {/* Aurora (غمامات لونية خفيفة) */}
+      <div className="pointer-events-none absolute -inset-20 blur-3xl opacity-25" data-parallax>
+        <div className={["absolute left-1/4 top-1/4 w-2/3 h-2/3 rounded-full",
+          "bg-[radial-gradient(circle_at_30%_30%,rgba(234,179,8,0.16),transparent_60%)]",
+          reduce ? "" : "animate-aurora",
+        ].join(" ")} />
+        <div className={["absolute right-1/5 bottom-1/5 w-1/2 h-1/2 rounded-full",
+          "bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.08),transparent_60%)]",
+          reduce ? "" : "animate-aurora-slow",
+        ].join(" ")} />
+      </div>
+
+      {/* Twinkles (تلألؤ نجوم خفيف) */}
+      <div className="pointer-events-none absolute inset-0">
+        {[...Array(36)].map((_, i) => (
+          <span
+            key={i}
+            className="absolute block rounded-full bg-white/60"
+            style={{
+              width: Math.random() * 2 + 1 + "px",
+              height: Math.random() * 2 + 1 + "px",
+              top: Math.random() * 100 + "%", left: Math.random() * 100 + "%",
+              animation: reduce ? "none" : `twinkle ${6 + Math.random() * 6}s ease-in-out ${Math.random() * 6}s infinite`,
+              filter: "blur(0.3px)",
+              opacity: 0.2,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* keyframes */}
+      <style jsx global>{`
+        @keyframes grid-move {
+          0%   { background-position: 0px 0px, 0px 0px; }
+          100% { background-position: 64px 64px, 64px 64px; }
+        }
+        .animate-grid-move { animation: grid-move 18s linear infinite; }
+
+        @keyframes slow-rotate { to { transform: rotate(372deg); } }
+        @keyframes slow-rotate-rev { to { transform: rotate(-372deg); } }
+        .animate-slow-rotate     { animation: slow-rotate 40s linear infinite; }
+        .animate-slow-rotate-rev { animation: slow-rotate-rev 48s linear infinite; }
+
+        @keyframes aurora { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(2%, -3%, 0) } }
+        @keyframes aurora-slow { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(-3%, 2%, 0) } }
+        .animate-aurora { animation: aurora 18s ease-in-out infinite; }
+        .animate-aurora-slow { animation: aurora-slow 26s ease-in-out infinite; }
+
+        @keyframes twinkle {
+          0%,100% { opacity: .15; transform: scale(1); }
+          50%      { opacity: .7;  transform: scale(1.7); }
+        }
+      `}</style>
+    </>
+  );
+}
 
 function Hero() {
   const controls = useAnimation();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
-  const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
+    if (inView) controls.start("visible");
   }, [controls, inView]);
-
-  // --- (كود الـ Particle Constellation Effect لم يتغير) ---
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particlesArray = [];
-    
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        init();
-    });
-
-    class Particle {
-        constructor(x, y, directionX, directionY, size, color) {
-            this.x = x;
-            this.y = y;
-            this.directionX = directionX;
-            this.directionY = directionY;
-            this.size = size;
-            this.color = color;
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        }
-        update() {
-            if (this.x > canvas.width || this.x < 0) {
-                this.directionX = -this.directionX;
-            }
-            if (this.y > canvas.height || this.y < 0) {
-                this.directionY = -this.directionY;
-            }
-            this.x += this.directionX;
-            this.y += this.directionY;
-            this.draw();
-        }
-    }
-
-    function init() {
-        particlesArray = [];
-        let numberOfParticles = (canvas.height * canvas.width) / 9000;
-        for (let i = 0; i < numberOfParticles; i++) {
-            let size = (Math.random() * 2) + 1;
-            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-            let directionX = (Math.random() * .4) - .2;
-            let directionY = (Math.random() * .4) - .2;
-            let color = 'rgba(234, 179, 8, 0.2)';
-            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-        }
-    }
-
-    function connect() {
-        let opacityValue = 1;
-        for (let a = 0; a < particlesArray.length; a++) {
-            for (let b = a; b < particlesArray.length; b++) {
-                let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                    opacityValue = 1 - (distance / 20000);
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${opacityValue * 0.5})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-
-    function animate() {
-        animationFrameId = requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-        }
-        connect();
-    }
-
-    init();
-    animate();
-
-    return () => {
-        window.cancelAnimationFrame(animationFrameId);
-        window.removeEventListener('resize', () => {});
-    }
-  }, []);
-  // --- (نهاية كود الـ Particle) ---
-
 
   const text = "Creative Designer & Developer";
   const words = text.split(" ");
@@ -236,205 +221,203 @@ function Hero() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        ease: [0.22, 1, 0.36, 1],
-        duration: 0.8,
-      },
+      transition: { ease: [0.22, 1, 0.36, 1], duration: 0.8 },
     },
   };
 
   const imageContainerVariants = {
-      hidden: { opacity: 0, scale: 0.8 },
-      visible: {
-          opacity: 1,
-          scale: 1,
-          transition: {
-              duration: 1.2,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 1.0 
-          }
-      }
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 1.0 },
+    },
   };
 
   return (
-    <section 
-      ref={ref} 
+    <section
+      ref={ref}
       className="w-full min-h-screen relative overflow-hidden bg-background flex items-start lg:items-center justify-center"
     >
-      <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0"></canvas>
-      
+      {/* الخلفية الجديدة */}
+      <Background />
+
       <div className="px-4 w-full max-w-6xl mx-auto relative z-10 pt-6 sm:pt-10 lg:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center mt-10">
-            
-            <motion.div
-                variants={imageContainerVariants}
-                initial="hidden"
-                animate={controls}
-                className="order-1 lg:order-2 flex justify-center items-center group h-[240px] sm:h-[300px] lg:h-[500px]"
-            >
-                <div className="relative w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[370px] lg:h-[370px]">
-                    {/* Central Image */}
-                    <motion.div 
-                        className="absolute inset-0 rounded-full"
-                        whileHover={{ scale: 1.05 }}
-                    >
-                        <img
-                            className="w-full h-full object-cover rounded-full shadow-2xl border-4 border-white/10"
-                            src="/imgs/my.jpg"
-                            alt="Taibi Abdelhakim"
-                            onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/350x350/191919/eab308?text=T+A'; }}
-                        />
-                        <div className="absolute inset-[-10px] border-2 border-main rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100 animate-pulse"></div>
-                    </motion.div>
+          {/* الصورة والاوربس */}
+          <motion.div
+            variants={imageContainerVariants}
+            initial="hidden"
+            animate={controls}
+            className="order-1 lg:order-2 flex justify-center items-center group h-[240px] sm:h-[300px] lg:h-[500px]"
+          >
+            <div className="relative w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[370px] lg:h-[370px]">
+              <motion.div className="absolute inset-0 rounded-full" whileHover={{ scale: 1.05 }}>
+                <img
+                  className="w-full h-full object-cover rounded-full shadow-2xl border-4 border-white/10"
+                  src="/imgs/my.jpg"
+                  alt="Taibi Abdelhakim"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "https://placehold.co/350x350/191919/eab308?text=T+A";
+                  }}
+                />
+                <div className="absolute inset-[-10px] border-2 border-main rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100 animate-pulse"></div>
+              </motion.div>
 
-                    {/* Orbs */}
-                    {[
-                        { size: 'w-6 h-6', duration: 10, distance: '130px' },
-                        { size: 'w-3 h-3', duration: 15, distance: '150px' },
-                        { size: 'w-5 h-5', duration: 20, distance: '170px' },
-                    ].map((orb, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute top-1/2 left-1/2"
-                            style={{ originX: orb.distance, originY: '0px' }}
-                            animate={{ rotate: 360 }}
-                            transition={{
-                                duration: orb.duration,
-                                repeat: Infinity,
-                                ease: "linear"
-                            }}
-                        >
-                            <div className={`${orb.size} bg-main/50 rounded-full blur-sm transition-all duration-500 group-hover:bg-main`}></div>
-                        </motion.div>
-                    ))}
-                </div>
+              {[ // نفس الأوربس مع تحسين خفيف في الـ blur
+                { size: "w-6 h-6", duration: 10, distance: "130px" },
+                { size: "w-3 h-3", duration: 15, distance: "150px" },
+                { size: "w-5 h-5", duration: 20, distance: "170px" },
+              ].map((orb, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute top-1/2 left-1/2"
+                  style={{ originX: orb.distance, originY: "0px" }}
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: orb.duration, repeat: Infinity, ease: "linear" }}
+                >
+                  <div className={`${orb.size} bg-main/50 rounded-full blur-sm transition-all duration-500 group-hover:bg-main`} />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* النصوص والأزرار */}
+          <div className="order-2 lg:order-1 text-center lg:text-left rounded-2xl px-6 pt-4 pb-6 lg:p-0 ">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-xl text-main font-semibold tracking-[0.2em] mb-4 normal-case"
+            >
+              Taibi Abdelhakim
+            </motion.p>
+
+            <motion.h1
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls}
+              className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter normal-case leading-tight"
+              aria-label={text}
+            >
+              {words.map((word, wordIndex) => (
+                <span key={wordIndex} className="inline-block whitespace-nowrap mr-4">
+                  {word.split("").map((letter, letterIndex) => {
+                    const isHighlighted = word === "Designer" || word === "Developer";
+                    return (
+                      <motion.span
+                        key={letterIndex}
+                        variants={letterVariants}
+                        className={`inline-block ${isHighlighted ? "text-main" : ""}`}
+                      >
+                        {letter}
+                      </motion.span>
+                    );
+                  })}
+                </span>
+              ))}
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.2 }}
+              className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 mt-8 normal-case"
+            >
+              I design and build beautiful, high-performance digital experiences from concept to code.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.4 }}
+              className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10"
+            >
+              <motion.a
+                href="#projects"
+                className="bg-main text-black font-bold py-3 px-8 rounded-full text-lg normal-case"
+                whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px hsl(var(--primary))" }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                Explore My Work
+              </motion.a>
+              <motion.a
+                href="/cv.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-transparent border-2 border-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all hover:scale-105 hover:border-main"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                Download CV
+              </motion.a>
             </motion.div>
 
-            <div className="order-2 lg:order-1 text-center lg:text-left rounded-2xl px-6 pt-4 pb-6 lg:p-0 ">
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-xl text-main font-semibold tracking-[0.2em] mb-4 normal-case"
+            <motion.div
+              className="flex md:hidden gap-4 mt-8 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.6 }}
+            >
+              {socialLinks.map((item, index) => (
+                <motion.a
+                  key={index}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 bg-white/10 backdrop-blur-sm text-white rounded-full cursor-pointer transition-all duration-300 hover:bg-main hover:text-black hover:scale-110"
                 >
-                    Taibi Abdelhakim
-                </motion.p>
-
-                <motion.h1
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={controls}
-                    className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter normal-case leading-tight"
-                    aria-label={text}
-                >
-                    {words.map((word, wordIndex) => (
-                        <span key={wordIndex} className="inline-block whitespace-nowrap mr-4">
-                            {word.split('').map((letter, letterIndex) => {
-                                const isHighlighted = word === "Designer" || word === "Developer";
-                                return (
-                                    <motion.span
-                                        key={letterIndex}
-                                        variants={letterVariants}
-                                        className={`inline-block ${isHighlighted ? 'text-main' : ''}`}
-                                    >
-                                        {letter}
-                                    </motion.span>
-                                );
-                            })}
-                        </span>
-                    ))}
-                </motion.h1>
-                
-                <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 2.2 }}
-                    className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 mt-8 normal-case"
-                >
-                    I design and build beautiful, high-performance digital experiences from concept to code.
-                </motion.p>
-                
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 2.4 }}
-                    className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10"
-                >
-                    <motion.a 
-                        href="#projects" 
-                        className="bg-main text-black font-bold py-3 px-8 rounded-full text-lg normal-case"
-                        whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px hsl(var(--primary))" }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                    >
-                        Explore My Work
-                    </motion.a>
-                    <motion.a 
-                        href="/cv.pdf" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-transparent border-2 border-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all hover:scale-105 hover:border-main"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                    >
-                        Download CV
-                    </motion.a>
-                </motion.div>
-
-                {/* Mobile Social Links */}
-                <motion.div
-                    className="flex md:hidden gap-4 mt-8 justify-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 2.6 }}
-                >
-                    {socialLinks.map((item, index) => (
-                        <motion.a 
-                            key={index}
-                            href={item.href} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="p-3 bg-white/10 backdrop-blur-sm text-white rounded-full cursor-pointer transition-all duration-300 hover:bg-main hover:text-black hover:scale-110"
-                        >
-                            {item.icon}
-                        </motion.a>
-                    ))}
-                </motion.div>
-            </div>
-            
+                  {item.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </div>
-      
-      
+
       <motion.a
         href="#skills"
-className="hidden lg:block lg:absolute lg:bottom-10 lg:left-1/2 lg:-translate-x-1/2 lg:z-20"
-
+        className="hidden lg:block lg:absolute lg:bottom-10 lg:left-1/2 lg:-translate-x-1/2 lg:z-20"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0, transition: { delay: 2.8, duration: 0.8 } }}
-        // ✨ [تعديل] أبقينا على التكبير هنا، ولكن أزلنا تغيير اللون
         whileHover={{ scale: 1.1 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
         <motion.div
-            className="w-12 h-12 rounded-full border-2 border-main flex items-center justify-center text-main"
-            animate={{ y: [0, 10, 0] }} // الحركة
-            transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-            }}
-            // ✨ [إضافة] تم نقل تأثير اللون إلى هنا ليطبق على الدائرة فقط
-            whileHover={{ backgroundColor: "hsl(var(--primary))", color: "#000" }}
+          className="w-12 h-12 rounded-full border-2 border-main flex items-center justify-center text-main"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          whileHover={{ backgroundColor: "hsl(var(--primary))", color: "#000" }}
         >
-            <HiArrowDown size={24} />
+          <HiArrowDown size={24} />
         </motion.div>
       </motion.a>
-      
-      
+
       <Fixed id={1} />
+
+      {/* مفاتيح الحركة العالمية للخلفية */}
+      <style jsx global>{`
+        @keyframes grid-move {
+          0%   { background-position: 0px 0px, 0px 0px; }
+          100% { background-position: 64px 64px, 64px 64px; }
+        }
+        .animate-grid-move {
+          animation: grid-move 18s linear infinite;
+        }
+
+        @keyframes sheen {
+          0%   { background-position: -40% 0; }
+          100% { background-position: 140% 0; }
+        }
+        .animate-sheen {
+          animation: sheen 6s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }
+
 
 
 

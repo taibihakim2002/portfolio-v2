@@ -1,0 +1,90 @@
+
+export default function Background() {
+  const reduce = useReducedMotion();
+
+  return (
+    <>
+      {/* التدرّج الأساسي */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_50%_at_50%_0%,rgba(120,119,198,0.25)_0%,rgba(0,0,0,0)_60%)]" />
+
+      {/* الشبكة المتحركة */}
+      <div
+        className={[
+          "pointer-events-none absolute inset-0 opacity-35",
+          "[background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)]",
+          "[background-size:32px_32px]",
+          reduce ? "" : "animate-grid-move",
+        ].join(" ")}
+      />
+
+      {/* Glow Beams (شرائط ضوء لطيفة) */}
+      <div
+        className="pointer-events-none absolute inset-0 mix-blend-screen opacity-30 [mask-image:radial-gradient(60%_60%_at_50%_50%,black,transparent)] overflow-hidden"
+        data-parallax
+      >
+        <div className={["absolute -inset-[30%] rotate-12",
+          "bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.08)_50deg,transparent_120deg)]",
+          reduce ? "" : "animate-slow-rotate",
+        ].join(" ")} />
+        <div className={["absolute -inset-[30%] -rotate-6",
+          "bg-[conic-gradient(from_180deg,transparent_0deg,rgba(234,179,8,0.08)_40deg,transparent_100deg)]",
+          reduce ? "" : "animate-slow-rotate-rev",
+        ].join(" ")} />
+      </div>
+
+      {/* Aurora (غمامات لونية خفيفة) */}
+      <div className="pointer-events-none absolute -inset-20 blur-3xl opacity-25" data-parallax>
+        <div className={["absolute left-1/4 top-1/4 w-2/3 h-2/3 rounded-full",
+          "bg-[radial-gradient(circle_at_30%_30%,rgba(234,179,8,0.16),transparent_60%)]",
+          reduce ? "" : "animate-aurora",
+        ].join(" ")} />
+        <div className={["absolute right-1/5 bottom-1/5 w-1/2 h-1/2 rounded-full",
+          "bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.08),transparent_60%)]",
+          reduce ? "" : "animate-aurora-slow",
+        ].join(" ")} />
+      </div>
+
+      {/* Twinkles (تلألؤ نجوم خفيف) */}
+      <div className="pointer-events-none absolute inset-0">
+        {[...Array(36)].map((_, i) => (
+          <span
+            key={i}
+            className="absolute block rounded-full bg-white/60"
+            style={{
+              width: Math.random() * 2 + 1 + "px",
+              height: Math.random() * 2 + 1 + "px",
+              top: Math.random() * 100 + "%", left: Math.random() * 100 + "%",
+              animation: reduce ? "none" : `twinkle ${6 + Math.random() * 6}s ease-in-out ${Math.random() * 6}s infinite`,
+              filter: "blur(0.3px)",
+              opacity: 0.2,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* keyframes */}
+      <style jsx global>{`
+        @keyframes grid-move {
+          0%   { background-position: 0px 0px, 0px 0px; }
+          100% { background-position: 64px 64px, 64px 64px; }
+        }
+        .animate-grid-move { animation: grid-move 18s linear infinite; }
+
+        @keyframes slow-rotate { to { transform: rotate(372deg); } }
+        @keyframes slow-rotate-rev { to { transform: rotate(-372deg); } }
+        .animate-slow-rotate     { animation: slow-rotate 40s linear infinite; }
+        .animate-slow-rotate-rev { animation: slow-rotate-rev 48s linear infinite; }
+
+        @keyframes aurora { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(2%, -3%, 0) } }
+        @keyframes aurora-slow { 0%,100% { transform: translate3d(0,0,0) } 50% { transform: translate3d(-3%, 2%, 0) } }
+        .animate-aurora { animation: aurora 18s ease-in-out infinite; }
+        .animate-aurora-slow { animation: aurora-slow 26s ease-in-out infinite; }
+
+        @keyframes twinkle {
+          0%,100% { opacity: .15; transform: scale(1); }
+          50%      { opacity: .7;  transform: scale(1.7); }
+        }
+      `}</style>
+    </>
+  );
+}
