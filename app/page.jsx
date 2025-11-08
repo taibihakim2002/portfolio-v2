@@ -264,7 +264,7 @@ function Hero() {
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0"></canvas>
       
       <div className="px-4 w-full max-w-6xl mx-auto relative z-10 pt-6 sm:pt-10 lg:pt-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center mt-10">
             
             <motion.div
                 variants={imageContainerVariants}
