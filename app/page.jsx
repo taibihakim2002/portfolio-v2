@@ -210,7 +210,6 @@ function Hero() {
   }, [controls, inView]);
 
   const text = "Full Stack Developer";
-
   const words = text.split(" ");
 
   const containerVariants = {
@@ -249,7 +248,7 @@ function Hero() {
 
       <div className="px-4 w-full max-w-6xl mx-auto relative z-10 pt-6 sm:pt-10 lg:pt-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center mt-10">
-          {/* الصورة والاوربس */}
+          {/* الصورة فقط (بدون أي تدرّجات) */}
           <motion.div
             variants={imageContainerVariants}
             initial="hidden"
@@ -290,15 +289,17 @@ function Hero() {
 
           {/* النصوص والأزرار */}
           <div className="order-2 lg:order-1 text-center lg:text-left rounded-2xl px-6 pt-4 pb-6 lg:p-0 ">
+            {/* الاسم (تدرّج) */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl text-main font-semibold tracking-[0.2em] mb-4 normal-case"
+              className="text-xl font-semibold tracking-[0.2em] mb-4 normal-case bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] bg-clip-text text-transparent "
             >
               TAIBI ABDELHAKIM
             </motion.p>
 
+            {/* العنوان: تدرّج على كلمة Developer فقط */}
             <motion.h1
               variants={containerVariants}
               initial="hidden"
@@ -309,12 +310,16 @@ function Hero() {
               {words.map((word, wordIndex) => (
                 <span key={wordIndex} className="inline-block whitespace-nowrap mr-4">
                   {word.split("").map((letter, letterIndex) => {
-                    const isHighlighted = word === "Designer" || word === "Developer";
+                    const isHighlighted = word === "Developer"; // فقط Developer
                     return (
                       <motion.span
                         key={letterIndex}
                         variants={letterVariants}
-                        className={`inline-block ${isHighlighted ? "text-main" : ""}`}
+                        className={
+                          isHighlighted
+                            ? "inline-block bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] bg-clip-text text-transparent "
+                            : "inline-block text-foreground"
+                        }
                       >
                         {letter}
                       </motion.span>
@@ -324,34 +329,50 @@ function Hero() {
               ))}
             </motion.h1>
 
+            {/* وصف */}
             <motion.p
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8, delay: 2.2 }}
-  className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-gray-400 mt-8 normal-case"
->
-  I build complete, scalable, and high-performance web applications using the MERN Stack — from backend architecture to polished front-end experiences.
-</motion.p>
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.2 }}
+              className="max-w-xl mx-auto lg:mx-0 text-base sm:text-lg text-muted-foreground mt-8 normal-case"
+            >
+              I build complete, scalable, and high-performance web applications using the MERN Stack — from backend architecture to polished front-end experiences.
+            </motion.p>
 
+            {/* الأزرار */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 2.4 }}
               className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mt-10"
             >
+              {/* Explore My Work — خلفية تدرّج */}
               <motion.a
                 href="#projects"
-                className="bg-main text-black font-bold py-3 px-8 rounded-full text-lg normal-case"
-                whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px hsl(var(--primary))" }}
+                className="relative font-bold py-3 px-8 rounded-full text-lg normal-case text-[hsl(var(--primary-foreground))]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--secondary)))",
+                  backgroundSize: "200% 100%",
+                }}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 28px hsl(var(--primary)/0.35)" }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                Explore My Work
+                <span className="animate-gradient-x">Explore My Work</span>
               </motion.a>
+
+              {/* Download CV — حدّ تدرّجي */}
               <motion.a
                 href="/cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-transparent border-2 border-gray-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all hover:scale-105 hover:border-main"
+                className="relative rounded-full text-lg font-bold px-8 py-3 transition-all"
+                style={{
+                  background:
+                    "linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box, linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--secondary))) border-box",
+                  border: "2px solid transparent",
+                  color: "hsl(var(--foreground))",
+                }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -359,6 +380,7 @@ function Hero() {
               </motion.a>
             </motion.div>
 
+            {/* أيقونات السوشال — تدرّج عند الـ hover فقط */}
             <motion.div
               className="flex md:hidden gap-4 mt-8 justify-center"
               initial={{ opacity: 0, y: 20 }}
@@ -371,7 +393,14 @@ function Hero() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 bg-white/10 backdrop-blur-sm text-white rounded-full cursor-pointer transition-all duration-300 hover:bg-main hover:text-black hover:scale-110"
+                  className="p-3 rounded-full cursor-pointer transition-all duration-300 border border-border bg-card/10 text-foreground hover:text-black"
+                  // التدرّج على hover فقط:
+                  style={{}}
+                  whileHover={{
+                    scale: 1.1,
+                    background:
+                      "linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--secondary)))",
+                  }}
                 >
                   {item.icon}
                 </motion.a>
@@ -381,6 +410,7 @@ function Hero() {
         </div>
       </div>
 
+      {/* زر السحب للأسفل — حدّ تدرّجي */}
       <motion.a
         href="#skills"
         className="hidden lg:block lg:absolute lg:bottom-10 lg:left-1/2 lg:-translate-x-1/2 lg:z-20"
@@ -390,7 +420,13 @@ function Hero() {
         transition={{ type: "spring", stiffness: 300 }}
       >
         <motion.div
-          className="w-12 h-12 rounded-full border-2 border-main flex items-center justify-center text-main"
+          className="w-12 h-12 rounded-full flex items-center justify-center"
+          style={{
+            background:
+              "linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box, linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary)), hsl(var(--secondary))) border-box",
+            border: "2px solid transparent",
+            color: "hsl(var(--accent))",
+          }}
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           whileHover={{ backgroundColor: "hsl(var(--primary))", color: "#000" }}
@@ -401,27 +437,21 @@ function Hero() {
 
       <Fixed id={1} />
 
-      {/* مفاتيح الحركة العالمية للخلفية */}
+      {/* مفاتيح الحركة: تحريك التدرّج */}
       <style jsx global>{`
-        @keyframes grid-move {
-          0%   { background-position: 0px 0px, 0px 0px; }
-          100% { background-position: 64px 64px, 64px 64px; }
+        @keyframes gradient-x {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
         }
-        .animate-grid-move {
-          animation: grid-move 18s linear infinite;
-        }
-
-        @keyframes sheen {
-          0%   { background-position: -40% 0; }
-          100% { background-position: 140% 0; }
-        }
-        .animate-sheen {
-          animation: sheen 6s ease-in-out infinite;
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 8s linear infinite;
         }
       `}</style>
     </section>
   );
 }
+
 
 
 
@@ -475,17 +505,24 @@ function AboutMe() {
                 
                 {/* --- العنوان الرئيسي للقسم --- */}
                 <motion.div 
-                    className="relative text-center mb-16"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={controls}
-                    variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: 20 } }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tighter">A Bit About Me</h2>
-                    <p className="text-gray-400 mt-4 max-w-xl mx-auto normal-case">
-                        My passion, my code, and my story.
-                    </p>
-                </motion.div>
+  className="relative text-center mb-16"
+  initial={{ opacity: 0, y: 20 }}
+  animate={controls}
+  variants={{ visible: { opacity: 1, y: 0 }, hidden: { opacity: 0, y: 20 } }}
+  transition={{ duration: 0.6 }}
+>
+  <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tighter">
+    A Bit{" "}
+    <span className="bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] bg-clip-text text-transparent ">
+      About
+    </span>{" "}
+    Me
+  </h2>
+
+  <p className="text-gray-400 mt-4 max-w-xl mx-auto normal-case">
+    My passion, my code, and my story.
+  </p>
+</motion.div>
 
                 {/* --- شبكة المحتوى (صورة + نص) --- */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -641,32 +678,58 @@ function Skills() {
 
   useEffect(() => { if (inView) controls.start("visible"); }, [controls, inView]);
 
-  // ✅ استخدم بياناتك الحالية
-  // توقع: CATEGORIES (["All", ...]) و SKILLS ([{name, group, level, icon, tags}...])
   const filtered = useMemo(
     () => (active === "All" ? SKILLS : SKILLS.filter(s => s.group === active)),
     [active]
   );
 
   return (
-    <section id="skills" className="relative overflow-hidden bg-[#0b0b0c] py-24">
+    <section id="skills" className="relative overflow-hidden bg-[hsl(var(--background))] py-24">
       {/* ========= خلفية عصرية (شبكة + هالات + وميض) ========= */}
       <div
         aria-hidden
         className={[
           "pointer-events-none absolute inset-0 opacity-[0.35]",
-          "[background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)]",
+          "[background-image:linear-gradient(hsl(var(--foreground)/0.06)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.06)_1px,transparent_1px)]",
           "[background-size:32px_32px]",
           reduce ? "" : "animate-grid-move",
         ].join(" ")}
       />
-      <div aria-hidden className="pointer-events-none absolute inset-0 mix-blend-screen opacity-25 [mask-image:radial-gradient(60%_60%_at_50%_50%,black,transparent)]">
-        <div className={["absolute -inset-[30%] rotate-12 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.08)_50deg,transparent_120deg)]", reduce ? "" : "animate-slow-rotate"].join(" ")} />
-        <div className={["absolute -inset-[30%] -rotate-6 bg-[conic-gradient(from_180deg,transparent_0deg,rgba(234,179,8,0.08)_40deg,transparent_100deg)]", reduce ? "" : "animate-slow-rotate-rev"].join(" ")} />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-screen opacity-25 [mask-image:radial-gradient(60%_60%_at_50%_50%,black,transparent)]"
+      >
+        <div
+          className={[
+            "absolute -inset-[30%] rotate-12",
+            "bg-[conic-gradient(from_0deg,transparent_0deg,hsl(var(--foreground)/0.08)_50deg,transparent_120deg)]",
+            reduce ? "" : "animate-slow-rotate",
+          ].join(" ")}
+        />
+        <div
+          className={[
+            "absolute -inset-[30%] -rotate-6",
+            "bg-[conic-gradient(from_180deg,transparent_0deg,hsl(var(--primary)/0.08)_40deg,transparent_100deg)]",
+            reduce ? "" : "animate-slow-rotate-rev",
+          ].join(" ")}
+        />
       </div>
+
       <div aria-hidden className="pointer-events-none absolute -inset-24 blur-3xl opacity-25">
-        <div className={["absolute left-1/5 top-1/5 w-2/3 h-2/3 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(234,179,8,0.16),transparent_60%)]", reduce ? "" : "animate-aurora"].join(" ")} />
-        <div className={["absolute right-1/6 bottom-1/6 w-1/2 h-1/2 rounded-full bg-[radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.08),transparent_60%)]", reduce ? "" : "animate-aurora-slow"].join(" ")} />
+        <div
+          className={[
+            "absolute left-1/5 top-1/5 w-2/3 h-2/3 rounded-full",
+            "bg-[radial-gradient(circle_at_30%_30%,hsl(var(--accent)/0.16),transparent_60%)]",
+            reduce ? "" : "animate-aurora",
+          ].join(" ")}
+        />
+        <div
+          className={[
+            "absolute right-1/6 bottom-1/6 w-1/2 h-1/2 rounded-full",
+            "bg-[radial-gradient(circle_at_70%_70%,hsl(var(--foreground)/0.08),transparent_60%)]",
+            reduce ? "" : "animate-aurora-slow",
+          ].join(" ")}
+        />
       </div>
       {/* ========= /الخلفية ========= */}
 
@@ -679,14 +742,18 @@ function Skills() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 text-[12px] tracking-widest uppercase text-white/60">
-            <span className="size-1.5 rounded-full bg-yellow-300/80" />
+          <span className="inline-flex items-center gap-2 text-[12px] tracking-widest uppercase text-[hsl(var(--foreground)/0.6)]">
+            <span className="size-1.5 rounded-full bg-[hsl(var(--accent)/0.8)]" />
             My Stack
           </span>
           <h2 className="mt-3 text-4xl md:text-6xl font-extrabold tracking-tight">
-            Skills, <span className="bg-gradient-to-r from-yellow-300 via-rose-300 to-cyan-300 bg-clip-text text-transparent">Tools</span> & Workflow
+            Skills,{" "}
+            <span className="bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] bg-clip-text text-transparent">
+              Tools
+            </span>{" "}
+            & Workflow
           </h2>
-          <p className="text-white/60 mt-3 max-w-2xl mx-auto">
+          <p className="text-[hsl(var(--muted-foreground))] mt-3 max-w-2xl mx-auto">
             Carefully picked technologies for speed, accessibility, and a delightful developer experience.
           </p>
         </motion.div>
@@ -695,8 +762,8 @@ function Skills() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* فلاتر جانبية */}
           <aside className="lg:col-span-3">
-            <div className="lg:sticky lg:top-24 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-4">
-              <div className="text-xs text-white/60 mb-2">Filter by</div>
+            <div className="lg:sticky lg:top-24 rounded-2xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.06)] backdrop-blur-md p-4">
+              <div className="text-xs text-[hsl(var(--muted-foreground))] mb-2">Filter by</div>
               <div className="flex lg:flex-col flex-wrap gap-2">
                 {CATEGORIES.map((c) => {
                   const activeChip = active === c;
@@ -706,13 +773,16 @@ function Skills() {
                       onClick={() => setActive(c)}
                       className={[
                         "relative w-fit lg:w-full rounded-xl px-4 py-2 text-sm transition focus:outline-none text-left",
-                        activeChip ? "text-black" : "text-white/85 hover:text-white",
+                        activeChip
+                          ? "text-[hsl(var(--primary-foreground))]"
+                          : "text-[hsl(var(--foreground)/0.85)] hover:text-[hsl(var(--foreground))]",
                       ].join(" ")}
                     >
                       <span
                         className={[
-                          "absolute inset-0 -z-10 rounded-xl border border-white/10 bg-white/5",
-                          activeChip && "bg-gradient-to-r from-cyan-300 via-yellow-300 to-fuchsia-300 animate-gradient-x",
+                          "absolute inset-0 -z-10 rounded-xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)]",
+                          activeChip &&
+                            "bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] a",
                         ].join(" ")}
                       />
                       {c}
@@ -722,21 +792,21 @@ function Skills() {
               </div>
 
               {/* أساطير خفيفة */}
-              <div className="mt-6 grid grid-cols-2 gap-2 text-[11px] text-white/60">
+              <div className="mt-6 grid grid-cols-2 gap-2 text-[11px] text-[hsl(var(--muted-foreground))]">
                 <div className="flex items-center gap-2">
-                  <span className="inline-block size-2 rounded-full bg-emerald-400/80" />
+                  <span className="inline-block size-2 rounded-full bg-[hsl(var(--accent)/0.8)]" />
                   <span>Core</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-block size-2 rounded-full bg-sky-400/80" />
+                  <span className="inline-block size-2 rounded-full bg-[hsl(var(--primary)/0.8)]" />
                   <span>UI/UX</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-block size-2 rounded-full bg-fuchsia-400/80" />
+                  <span className="inline-block size-2 rounded-full bg-[hsl(var(--secondary)/0.8)]" />
                   <span>Tools</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="inline-block size-2 rounded-full bg-yellow-300/80" />
+                  <span className="inline-block size-2 rounded-full bg-[hsl(var(--destructive)/0.8)]" />
                   <span>Perf</span>
                 </div>
               </div>
@@ -759,27 +829,36 @@ function Skills() {
                   variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
                   whileHover={{ y: -4 }}
                   transition={{ type: "spring", stiffness: 200, damping: 22 }}
-                  className="relative group rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-5 overflow-hidden"
+                  className="relative group rounded-2xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.06)] backdrop-blur-md p-5 overflow-hidden"
                 >
                   {/* وهج محيطي عند التحويم */}
-                  <span className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300" style={{
-                    background: "radial-gradient(600px 220px at 50% 100%, rgba(234,179,8,0.14), transparent 42%)"
-                  }} />
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-300"
+                    style={{
+                      background:
+                        "radial-gradient(600px 220px at 50% 100%, hsl(var(--accent)/0.14), transparent 42%)",
+                    }}
+                  />
 
                   {/* رأس البطاقة */}
                   <div className="flex items-start gap-3">
-                    <div className="size-12 grid place-items-center rounded-xl bg-white/[0.07] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
+                    <div className="size-12 grid place-items-center rounded-xl bg-[hsl(var(--card)/0.1)] border border-[hsl(var(--border)/0.5)] shadow-[inset_0_0_0_1px_hsl(var(--foreground)/0.05)]">
                       <div className="scale-110 opacity-90">{skill.icon}</div>
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg font-semibold tracking-tight">{skill.name}</h3>
                         {skill.group && (
-                          <span className="text-[11px] px-2 py-0.5 rounded-full border border-white/10 text-white/70">{skill.group}</span>
+                          <span className="text-[11px] px-2 py-0.5 rounded-full border border-[hsl(var(--border)/0.6)] text-[hsl(var(--foreground)/0.7)]">
+                            {skill.group}
+                          </span>
                         )}
                       </div>
-                      {/* وصف صغير اختياري: ضع skill.desc إن كان موجودًا */}
-                      {skill.desc && <p className="text-[13px] text-white/60 mt-1 line-clamp-2">{skill.desc}</p>}
+                      {skill.desc && (
+                        <p className="text-[13px] text-[hsl(var(--muted-foreground))] mt-1 line-clamp-2">
+                          {skill.desc}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -788,22 +867,24 @@ function Skills() {
                     <div
                       className="relative size-16 rounded-full grid place-items-center"
                       style={{
-                        background: `conic-gradient(var(--ring, rgba(234,179,8,0.9)) ${lvl * 3.6}deg, rgba(255,255,255,0.08) ${lvl * 3.6}deg)`,
+                        background: `conic-gradient(hsl(var(--ring)) ${lvl * 3.6}deg, hsl(var(--foreground)/0.08) ${
+                          lvl * 3.6
+                        }deg)`,
                       }}
                     >
-                      <div className="absolute inset-[4px] rounded-full bg-black/60 backdrop-blur-sm border border-white/10" />
+                      <div className="absolute inset-[4px] rounded-full bg-[hsl(var(--background)/0.6)] backdrop-blur-sm border border-[hsl(var(--border)/0.6)]" />
                       <div className="relative text-sm font-semibold">{lvl}%</div>
                     </div>
 
                     {/* شريط تقدّم خطي مع شِيمر */}
                     <div className="flex-1">
-                      <div className="flex items-center justify-between text-[12px] text-white/60 mb-1">
+                      <div className="flex items-center justify-between text-[12px] text-[hsl(var(--muted-foreground))] mb-1">
                         <span>Proficiency</span>
                         <span>{lvl}%</span>
                       </div>
-                      <div className="relative h-2 rounded-full bg-white/10 overflow-hidden">
+                      <div className="relative h-2 rounded-full bg-[hsl(var(--muted)/0.6)] overflow-hidden">
                         <div
-                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-yellow-300 via-rose-300 to-cyan-300"
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))]"
                           style={{ width: `${lvl}%`, backgroundSize: "200% 100%", animation: "gradient-x 8s linear infinite" }}
                         />
                       </div>
@@ -814,13 +895,18 @@ function Skills() {
                   {!!skill.tags?.length && (
                     <div className="mt-4 flex flex-wrap gap-1.5">
                       {skill.tags.slice(0, 6).map((t, idx) => (
-                        <span key={idx} className="text-[11px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/70">{t}</span>
+                        <span
+                          key={idx}
+                          className="text-[11px] px-2 py-1 rounded-md bg-[hsl(var(--muted)/0.2)] border border-[hsl(var(--border)/0.6)] text-[hsl(var(--muted-foreground))]"
+                        >
+                          {t}
+                        </span>
                       ))}
                     </div>
                   )}
 
                   {/* خط شيمر زخرفي */}
-                  <span className="pointer-events-none absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full shimmer-line" />
+                  <span className="pointer-events-none absolute inset-x-0 -bottom-1 h-px bg-gradient-to-r from-transparent via-[hsl(var(--foreground)/0.2)] to-transparent -translate-x-full shimmer-line" />
                 </motion.div>
               );
             })}
@@ -830,7 +916,10 @@ function Skills() {
 
       {/* مفاتيح الحركة داخل نفس المكوّن */}
       <style jsx global>{`
-        @keyframes grid-move { 0% { background-position: 0px 0px, 0px 0px; } 100% { background-position: 64px 64px, 64px 64px; } }
+        @keyframes grid-move {
+          0% { background-position: 0px 0px, 0px 0px; }
+          100% { background-position: 64px 64px, 64px 64px; }
+        }
         .animate-grid-move { animation: grid-move 18s linear infinite; }
 
         @keyframes slow-rotate { to { transform: rotate(372deg); } }
@@ -852,6 +941,7 @@ function Skills() {
     </section>
   );
 }
+
 
 function SkillsList() {
  // ✨ Updated to an array of objects with names and icon paths
@@ -1007,25 +1097,33 @@ function Works() {
   }, [active, projects]);
 
   return (
-    <section id="projects" className="relative z-10 bg-[#0e0e0f] py-20">
+    <section id="projects" className="relative z-10 bg-[hsl(var(--background))] py-20">
       {/* خلفية ناعمة */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(60rem 60rem at 20% -10%, rgba(99,102,241,.14), transparent 60%), radial-gradient(50rem 50rem at 80% 10%, rgba(16,185,129,.12), transparent 55%)",
+            "radial-gradient(60rem 60rem at 20% -10%, hsl(var(--secondary)/.14), transparent 60%), radial-gradient(50rem 50rem at 80% 10%, hsl(var(--accent)/.12), transparent 55%)",
         }}
       />
-      <div className="absolute inset-0 opacity-[0.06] bg-[url('data:image/svg+xml;utf8,\
+      <div
+        className="absolute inset-0 opacity-[0.06] bg-[url('data:image/svg+xml;utf8,\
         <svg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2716%27 viewBox=%270 0 16 16%27>\
-        <path fill=%27%23ffffff%27 fill-opacity=%270.7%27 d=%27M0 15.5H16v1H0zM15.5 0v16h1V0z%27 /></svg>')]" />
+        <path fill=%27%23ffffff%27 fill-opacity=%270.7%27 d=%27M0 15.5H16v1H0zM15.5 0v16h1V0z%27 /></svg>')]"
+        aria-hidden
+        style={{ filter: "saturate(0)" }}
+      />
 
-      <div className="relative text-white px-6 sm:px-12 md:px-20 max-w-7xl mx-auto">
+      <div className="relative text-[hsl(var(--foreground))] px-6 sm:px-12 md:px-20 max-w-7xl mx-auto">
         {/* العنوان */}
         <div className="text-center mb-10">
-          <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter">Featured Projects</h2>
-          <p className="text-gray-400 mt-3">A visual wall of selected work.</p>
+<h2 className="text-4xl lg:text-6xl font-bold tracking-tighter">
+  Featured{" "}
+  <span className="bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))] bg-clip-text text-transparent">
+    Projects
+  </span>
+</h2>          <p className="mt-3 text-[hsl(var(--muted-foreground))]">A visual wall of selected work.</p>
         </div>
 
         {/* فلاتر */}
@@ -1042,12 +1140,20 @@ function Works() {
               <button
                 key={c}
                 onClick={() => setActive(c)}
-                className={`relative rounded-full px-4 py-2 text-sm transition
-                  ${isActive ? "text-black" : "text-gray-300 hover:text-white"}`}
+                className={[
+                  "relative rounded-full px-4 py-2 text-sm transition",
+                  isActive
+                    ? "text-[hsl(var(--primary-foreground))]"
+                    : "text-[hsl(var(--foreground)/0.8)] hover:text-[hsl(var(--foreground))]",
+                ].join(" ")}
               >
                 <span
-                  className={`absolute inset-0 rounded-full -z-10 transition
-                    ${isActive ? "bg-gradient-to-r from-cyan-300 via-yellow-300 to-fuchsia-300" : "bg-white/5 border border-white/10"}`}
+                  className={[
+                    "absolute inset-0 rounded-full -z-10 transition border",
+                    isActive
+                      ? "border-transparent bg-gradient-to-r from-[hsl(var(--accent))] via-[hsl(var(--primary))] to-[hsl(var(--secondary))]"
+                      : "border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)]",
+                  ].join(" ")}
                 />
                 {c}
               </button>
@@ -1069,7 +1175,7 @@ function Works() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
               }}
-              className="mb-6 break-inside-avoid rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm group"
+              className="mb-6 break-inside-avoid rounded-2xl overflow-hidden border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] backdrop-blur-sm group"
             >
               <div className="relative">
                 <img
@@ -1080,14 +1186,14 @@ function Works() {
                   onError={(e) => {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src =
-                      "https://placehold.co/1000x700/191919/eab308?text=Project";
+                      "https://placehold.co/1000x700/0d1117/f0f6fc?text=Project"; // متناسق مع الخلفية/النص
                   }}
                 />
                 {/* Overlay خفيف */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 opacity-70" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[hsl(var(--background)/0.6)] opacity-70" />
                 {/* شارة النوع */}
                 {ele?.type && (
-                  <span className="absolute top-3 left-3 text-[11px] font-semibold bg-black/50 backdrop-blur-sm border border-white/15 text-white px-2 py-1 rounded-full">
+                  <span className="absolute top-3 left-3 text-[11px] font-semibold bg-[hsl(var(--background)/0.5)] backdrop-blur-sm border border-[hsl(var(--border)/0.6)] text-[hsl(var(--foreground))] px-2 py-1 rounded-full">
                     {ele.type}
                   </span>
                 )}
@@ -1099,7 +1205,7 @@ function Works() {
                 </h3>
 
                 {ele?.description && (
-                  <p className="text-gray-400 text-sm normal-case line-clamp-3">
+                  <p className="text-[hsl(var(--muted-foreground))] text-sm normal-case line-clamp-3">
                     {ele.description}
                   </p>
                 )}
@@ -1109,7 +1215,7 @@ function Works() {
                     {ele.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="text-[11px] font-semibold bg-white/10 px-2 py-1 rounded-full"
+                        className="text-[11px] font-semibold bg-[hsl(var(--card)/0.12)] border border-[hsl(var(--border)/0.6)] px-2 py-1 rounded-full"
                       >
                         {tag}
                       </span>
@@ -1124,7 +1230,7 @@ function Works() {
                       href={ele.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex gap-1 items-center font-semibold hover:text-main transition"
+                      className="flex gap-1 items-center font-semibold hover:text-[hsl(var(--accent))] transition"
                     >
                       Live <GoArrowUpRight />
                     </a>
@@ -1134,7 +1240,7 @@ function Works() {
                       href={ele.source}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex gap-1 items-center font-semibold hover:text-main transition"
+                      className="flex gap-1 items-center font-semibold hover:text-[hsl(var(--accent))] transition"
                     >
                       Code <GoArrowUpRight />
                     </a>
@@ -1146,7 +1252,7 @@ function Works() {
         </motion.div>
 
         {!filtered.length && (
-          <div className="mt-10 text-center text-gray-400">
+          <div className="mt-10 text-center text-[hsl(var(--muted-foreground))]">
             No projects to display right now.
           </div>
         )}
@@ -1165,8 +1271,8 @@ function Contact() {
   // === عدّل بياناتك هنا ===
   const NAME = "Taibi Abdelhakim";
   const EMAIL = "taibihakim2002@gmail.com";
-  const PHONE = "+213 555 000 000";       // ← غيّره
-  const WHATSAPP = "+213555000000";      // ← بدون مسافات/رموز
+  const PHONE = "+213 555 000 000";
+  const WHATSAPP = "+213555000000";
   const LOCATION = "Algeria (Remote-friendly)";
   const GITHUB = "https://github.com/your-username";
   const LINKEDIN = "https://www.linkedin.com/in/your-username";
@@ -1174,7 +1280,7 @@ function Contact() {
   const RESPONSE = "Typically replies within 24–48h";
 
   const [copied, setCopied] = useState(null);
-  const copy = async (key, value) => {
+  const copy = async (key , value) => {
     try {
       await navigator.clipboard?.writeText(value);
       setCopied(key);
@@ -1185,7 +1291,6 @@ function Contact() {
   const container = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
   const item = { hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } };
 
-  // vCard (اختياري تحميل)
   const vcardHref = useMemo(() => {
     const vc = [
       "BEGIN:VCARD",
@@ -1200,61 +1305,50 @@ function Contact() {
   }, [NAME, PHONE, EMAIL, LOCATION]);
 
   return (
-    <section id="contact" className="w-full py-24 relative bg-background overflow-hidden">
+    <section id="contact" className="w-full py-24 relative bg-[hsl(var(--background))] overflow-hidden">
       {/* خلفية Mesh + Grid + Noise */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(60rem 40rem at 15% 0%, rgba(234,179,8,.12), transparent 60%), radial-gradient(50rem 50rem at 85% 10%, rgba(99,102,241,.12), transparent 55%)",
+            "radial-gradient(60rem 40rem at 15% 0%, hsl(var(--accent)/.12), transparent 60%), radial-gradient(50rem 50rem at 85% 10%, hsl(var(--secondary)/.12), transparent 55%)",
         }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[.25] [background-image:linear-gradient(rgba(255,255,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.06)_1px,transparent_1px)] [background-size:32px_32px]"
+        className="pointer-events-none absolute inset-0 opacity-[.25] [background-image:linear-gradient(hsl(var(--foreground)/.06)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/.06)_1px,transparent_1px)] [background-size:32px_32px]"
       />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-25 [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22 viewBox=%220 0 72 72%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%222%22 stitchTiles=%22stitch%22/></filter><rect width=%2272%22 height=%2272%22 filter=%22url(%23n)%22 opacity=%220.12%22/></svg>')]"
       />
 
-      <div className="relative z-10 text-white px-6 sm:px-12 max-w-7xl mx-auto">
+      <div className="relative z-10 text-[hsl(var(--foreground))] px-6 sm:px-12 max-w-7xl mx-auto">
         {/* عنوان */}
-        <motion.div
-          ref={ref}
-          initial="hidden"
-          animate={controls}
-          variants={container}
-          className="text-center mb-14"
-        >
+        <motion.div ref={ref} initial="hidden" animate={controls} variants={container} className="text-center mb-14">
           <motion.h2 variants={item} className="text-4xl md:text-6xl font-extrabold tracking-tight">
             Let’s build something great.
           </motion.h2>
-          <motion.p variants={item} className="max-w-2xl mx-auto mt-3 text-white/70">
+          <motion.p variants={item} className="max-w-2xl mx-auto mt-3 text-[hsl(var(--muted-foreground))]">
             Available for Full-Stack MERN projects, consulting, and performance work.
           </motion.p>
         </motion.div>
 
         {/* تخطيط Split Glass */}
-        <motion.div
-          initial="hidden"
-          animate={controls}
-          variants={container}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-7"
-        >
+        <motion.div initial="hidden" animate={controls} variants={container} className="grid grid-cols-1 lg:grid-cols-12 gap-7">
           {/* يسار: بطاقة معلومات زجاجية */}
           <motion.div
             variants={item}
-            className="lg:col-span-6 relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-6"
+            className="lg:col-span-6 relative rounded-2xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.06)] backdrop-blur-md p-6"
           >
             {/* رأس صغير */}
             <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-white/70">
-                <span className="size-2 rounded-full bg-emerald-400/80" />
+              <div className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]">
+                <span className="size-2 rounded-full bg-[hsl(var(--accent)/0.8)]" />
                 <span>Contacts</span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-white/60">
+              <div className="flex items-center gap-2 text-xs text-[hsl(var(--muted-foreground))]">
                 <FiClock className="opacity-80" />
                 <span>{RESPONSE}</span>
               </div>
@@ -1265,15 +1359,19 @@ function Contact() {
               {/* Email */}
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiMail /></span>
+                  <span className="grid place-items-center size-10 rounded-lg bg-[hsl(var(--card)/0.1)] border border-[hsl(var(--border)/0.6)]">
+                    <FiMail />
+                  </span>
                   <div className="min-w-0">
-                    <div className="text-sm text-white/60">Email</div>
-                    <a href={`mailto:${EMAIL}`} className="font-semibold break-all hover:underline">{EMAIL}</a>
+                    <div className="text-sm text-[hsl(var(--muted-foreground))]">Email</div>
+                    <a href={`mailto:${EMAIL}`} className="font-semibold break-all hover:underline">
+                      {EMAIL}
+                    </a>
                   </div>
                 </div>
                 <button
                   onClick={() => copy("email", EMAIL)}
-                  className="rounded-md border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
+                  className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] p-2 hover:bg-[hsl(var(--card)/0.14)] transition"
                   aria-label="Copy email"
                 >
                   {copied === "email" ? <FiCheck /> : <FiCopy />}
@@ -1283,19 +1381,33 @@ function Contact() {
               {/* Phone / WhatsApp */}
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiPhone /></span>
+                  <span className="grid place-items-center size-10 rounded-lg bg-[hsl(var(--card)/0.1)] border border-[hsl(var(--border)/0.6)]">
+                    <FiPhone />
+                  </span>
                   <div className="min-w-0">
-                    <div className="text-sm text-white/60">Phone / WhatsApp</div>
+                    <div className="text-sm text-[hsl(var(--muted-foreground))]">Phone / WhatsApp</div>
                     <div className="font-semibold">{PHONE}</div>
                     <div className="mt-1 text-sm">
-                      <a href={`tel:${PHONE.replace(/\s+/g, "")}`} className="text-main hover:underline mr-3">Call</a>
-                      <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer" className="text-main hover:underline">WhatsApp</a>
+                      <a
+                        href={`tel:${PHONE.replace(/\s+/g, "")}`}
+                        className="text-[hsl(var(--accent))] hover:underline mr-3"
+                      >
+                        Call
+                      </a>
+                      <a
+                        href={`https://wa.me/${WHATSAPP}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[hsl(var(--accent))] hover:underline"
+                      >
+                        WhatsApp
+                      </a>
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => copy("phone", PHONE)}
-                  className="rounded-md border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition"
+                  className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] p-2 hover:bg-[hsl(var(--card)/0.14)] transition"
                   aria-label="Copy phone"
                 >
                   {copied === "phone" ? <FiCheck /> : <FiCopy />}
@@ -1304,24 +1416,41 @@ function Contact() {
 
               {/* Location */}
               <div className="flex items-start gap-3">
-                <span className="grid place-items-center size-10 rounded-lg bg-white/[0.07] border border-white/10"><FiMapPin /></span>
+                <span className="grid place-items-center size-10 rounded-lg bg-[hsl(var(--card)/0.1)] border border-[hsl(var(--border)/0.6)]">
+                  <FiMapPin />
+                </span>
                 <div>
-                  <div className="text-sm text-white/60">Location</div>
+                  <div className="text-sm text-[hsl(var(--muted-foreground))]">Location</div>
                   <div className="font-semibold">{LOCATION}</div>
                 </div>
               </div>
 
               {/* Socials */}
               <div className="pt-2">
-                <div className="text-sm text-white/60 mb-2">Socials</div>
+                <div className="text-sm text-[hsl(var(--muted-foreground))] mb-2">Socials</div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <a href={GITHUB} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                  <a
+                    href={GITHUB}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-3 py-2 hover:border-[hsl(var(--accent))] transition"
+                  >
                     <FiGithub /> GitHub
                   </a>
-                  <a href={LINKEDIN} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                  <a
+                    href={LINKEDIN}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-3 py-2 hover:border-[hsl(var(--accent))] transition"
+                  >
                     <FiLinkedin /> LinkedIn
                   </a>
-                  <a href={TWITTER} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 hover:border-main transition">
+                  <a
+                    href={TWITTER}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-3 py-2 hover:border-[hsl(var(--accent))] transition"
+                  >
                     <FiTwitter /> X
                   </a>
                 </div>
@@ -1332,31 +1461,31 @@ function Contact() {
           {/* يمين: CTA كبير */}
           <motion.div
             variants={item}
-            className="lg:col-span-6 relative rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md p-6 overflow-hidden"
+            className="lg:col-span-6 relative rounded-2xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.06)] backdrop-blur-md p-6 overflow-hidden"
           >
             {/* هالة خفيفة */}
             <span
               aria-hidden
               className="pointer-events-none absolute -inset-20 blur-3xl opacity-60"
-              style={{ background: "radial-gradient(40rem 22rem at 70% 20%, rgba(234,179,8,0.15), transparent 60%)" }}
+              style={{ background: "radial-gradient(40rem 22rem at 70% 20%, hsl(var(--accent)/0.15), transparent 60%)" }}
             />
             <div className="relative">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[12px] text-white/70">
-                <span className="size-1.5 rounded-full bg-yellow-300/80" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.12)] px-3 py-1 text-[12px] text-[hsl(var(--muted-foreground))]">
+                <span className="size-1.5 rounded-full bg-[hsl(var(--accent)/0.8)]" />
                 Open to new projects
               </div>
 
               <h3 className="mt-4 text-3xl md:text-4xl font-extrabold tracking-tight">
                 Work with me on your next<br />full-stack MERN project.
               </h3>
-              <p className="mt-3 text-white/70 max-w-xl">
+              <p className="mt-3 text-[hsl(var(--muted-foreground))] max-w-xl">
                 From backend architecture and APIs to polished front-end UI — I deliver fast, scalable, and secure solutions.
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 <a
                   href={`mailto:${EMAIL}`}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-main text-black px-5 py-3 font-semibold hover:shadow-[0_0_0_6px_rgba(234,179,8,0.15)] transition"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-5 py-3 font-semibold hover:shadow-[0_0_0_6px_hsl(var(--primary)/0.15)] transition"
                 >
                   <FiMail /> Email me
                 </a>
@@ -1364,26 +1493,26 @@ function Contact() {
                   href={`https://wa.me/${WHATSAPP}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-5 py-3 font-semibold hover:border-main transition"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.12)] px-5 py-3 font-semibold hover:border-[hsl(var(--accent))] transition"
                 >
                   <FiPhone /> WhatsApp
                 </a>
                 <a
                   href={vcardHref}
                   download={`${NAME.replace(/\s+/g, "_")}.vcf`}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-5 py-3 font-semibold hover:border-main transition"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.12)] px-5 py-3 font-semibold hover:border-[hsl(var(--accent))] transition"
                 >
                   Save Contact <FiArrowRight />
                 </a>
               </div>
 
               {/* شارات تقنية صغيرة */}
-              <div className="mt-5 flex flex-wrap gap-2 text-[12px] text-white/70">
-                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">MERN Stack</span>
-                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Full-Stack</span>
-                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">APIs</span>
-                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Performance</span>
-                <span className="rounded-md border border-white/10 bg-white/[0.05] px-2 py-1">Security</span>
+              <div className="mt-5 flex flex-wrap gap-2 text-[12px] text-[hsl(var(--muted-foreground))]">
+                <span className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-2 py-1">MERN Stack</span>
+                <span className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-2 py-1">Full-Stack</span>
+                <span className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-2 py-1">APIs</span>
+                <span className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-2 py-1">Performance</span>
+                <span className="rounded-md border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-2 py-1">Security</span>
               </div>
             </div>
           </motion.div>
@@ -1398,7 +1527,7 @@ function Contact() {
         >
           <a
             href={`mailto:${EMAIL}`}
-            className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-lg font-semibold hover:border-main transition"
+            className="inline-flex items-center justify-center rounded-2xl border border-[hsl(var(--border)/0.6)] bg-[hsl(var(--card)/0.08)] px-6 py-4 text-lg font-semibold hover:border-[hsl(var(--accent))] transition"
           >
             Start a project — let’s talk
           </a>
@@ -1407,6 +1536,7 @@ function Contact() {
     </section>
   );
 }
+
 
 
 
