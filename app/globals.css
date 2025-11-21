@@ -4,36 +4,51 @@
 
 @layer base {
   :root {
-    /* هوية بصرية لمطور مواقع */
-    --background: 220 26% 8%; /* #0d1117 */
-    --foreground: 213 42% 97%; /* #f0f6fc */
+    /* خلفية داكنة جداً (ليس أسود نقي، بل كحلي غامق جداً) لتقليل إجهاد العين */
+    --background: 240 10% 3.9%; 
+    --foreground: 210 40% 98%;
 
-    --card: 220 21% 12%; /* #161b22 */
-    --card-foreground: 213 42% 97%; /* #f0f6fc */
+    /* البطاقات بلون أفتح قليلاً للتباين */
+    --card: 240 10% 7%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 220 21% 12%; /* #161b22 */
-    --popover-foreground: 213 42% 97%; /* #f0f6fc */
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%; /* #3b82f6 */
-    --primary-foreground: 0 0% 100%; /* #ffffff */
+    /* اللون الرئيسي: نيلي كهربائي (Electric Indigo) */
+    --primary: 263.4 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 262 83% 67%; /* #8b5cf6 */
-    --secondary-foreground: 0 0% 100%; /* #ffffff */
+    /* اللون الثانوي: رمادي مزرق */
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 9% 20%; /* #1f2937 */
-    --muted-foreground: 220 9% 65%; /* #9ca3af */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 189 86% 56%; /* #22d3ee */
-    --accent-foreground: 220 26% 8%; /* #0d1117 */
+    /* لون التمييز: سيان (Cyan) لإضافة حياة للتصميم */
+    --accent: 180 100% 50%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-    --destructive: 0 84% 63%; /* #ef4444 */
-    --destructive-foreground: 0 0% 100%; /* #ffffff */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 215 15% 20%; /* #30363d */
-    --input: 220 9% 20%; /* #1f2937 */
-    --ring: 217 91% 60%; /* #3b82f6 */
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 263.4 70% 50.4%;
+  }
+}
 
-    --radius: 0.5rem;
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  /* IE and Edge */
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      /* Firefox */
+      scrollbar-width: none; 
   }
 }
 
@@ -42,7 +57,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "liga" 1, "calt" 1;
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-white;
+  }
+  /* تحسين التمرير في كامل الموقع */
+  html {
+    scroll-behavior: smooth;
   }
 }
