@@ -1,25 +1,23 @@
 // data/projectsData.js
-// ملاحظة: هذه الاستيرادات ليست مستخدمة مباشرة داخل المصفوفة في مثالك،
-// ولكن تم الابقاء عليها لأنها كانت موجودة في الكود الذي قدمته كنموذج.
 import { FiCode, FiLayout, FiServer, FiTool } from "react-icons/fi";
 import { SiNextdotjs, SiReact, SiTailwindcss, SiMongodb, SiNodedotjs, SiTypescript, SiFramer, SiDocker, SiPrisma, SiPostgresql } from "react-icons/si";
 
 export const projectsData = [
   {
     id: 1,
-    title: "شركة لمعة للتنظيف (Lama'a Cleaning)",
+    title: "Lama'a Cleaning Company",
     category: "Web Application",
-    tagline: "منصة رقمية متكاملة لخدمات التنظيف ونظام الحجز.",
+    tagline: "A comprehensive digital platform for cleaning services with a booking system.",
     date: "Feb 2024",
-    description: "موقع إلكتروني متكامل لشركة تنظيف يهدف إلى التعريف بخدمات الشركة ويتيح للعملاء إجراء حجوزات للخدمات عبر الإنترنت. يتميز الموقع بلوحة تحكم (مفترضة) لإدارة الحجوزات.",
-    challenge: "بناء نظام حجز full-stack قوي يتعامل مع المواعيد المتاحة بشكل فوري، وضمان تجربة مستخدم سلسة وسريعة على الواجهة الأمامية.",
-    solution: "تم استخدام Node.js و Express لبناء API قوي للتعامل مع بيانات الحجز وتخزينها في MongoDB، بينما تم استخدام Next.js لضمان سرعة وأداء عالي للواجهة الأمامية وتحسين محركات البحث (SEO)، مع إضافة حركات تفاعلية باستخدام Framer Motion.",
+    description: "A full-stack website for a cleaning company aimed at showcasing services and allowing customers to book appointments online. It features a (simulated) dashboard for managing bookings.",
+    challenge: "Building a robust full-stack booking system that handles real-time availability, while ensuring a smooth and fast user experience on the frontend.",
+    solution: "Used Node.js and Express to build a powerful API for handling booking data with MongoDB. Utilized Next.js for high performance, SEO optimization, and integrated Framer Motion for interactive animations.",
     features: [
-      "نظام حجز إلكتروني متكامل",
-      "عرض خدمات الشركة بالتفصيل",
-      "تصميم متجاوب (Responsive Design)",
-      "واجهة مستخدم سريعة (Next.js)",
-      "رسوم متحركة سلسة (Framer Motion)"
+      "Full Online Booking System",
+      "Detailed Service Showcase",
+      "Responsive Design",
+      "Fast UI (Next.js)",
+      "Smooth Animations (Framer Motion)"
     ],
     stack: ["Next.js", "Node.js", "Express.js", "MongoDB", "HTML", "CSS", "JavaScript", "Framer Motion"],
     links: {
@@ -27,8 +25,8 @@ export const projectsData = [
       repo: "https://github.com/username/lamaa-cleaning-project",
     },
     images: [
-      "/imgs/projects/1/1.jpg", // الصورة الأولى jpg
-      "/imgs/projects/1/2.png", // الباقي png
+      "/imgs/projects/1/1.jpg", // First image is jpg
+      "/imgs/projects/1/2.png", // The rest are png
       "/imgs/projects/1/3.png",
       "/imgs/projects/1/4.png",
       "/imgs/projects/1/5.png",
@@ -44,17 +42,17 @@ export const projectsData = [
     id: 5,
     title: "MediDoctor - Health App Dashboard",
     category: "Web Application",
-    tagline: "منصة صحية للبحث عن الأطباء وحجز المواعيد.",
+    tagline: "A health platform for finding doctors and booking appointments.",
     date: "Jan 2024",
-    description: "تطبيق ويب يقوم بعرض مجموعة من التخصصات الطبية وقائمة بالأطباء. يتيح للمستخدمين البحث عن طبيب معين بناءً على التخصص وإجراء عملية حجز موعد معه.",
-    challenge: "تطوير نظام فلترة بحث فعال وسريع لعرض الأطباء المناسبين حسب التخصص، وإدارة حالة عملية الحجز متعددة الخطوات.",
-    solution: "الاعتماد على قدرات Next.js في العرض من جانب الخادم (SSR) لعرض قوائم الأطباء بسرعة، واستخدام React state لإدارة التفاعلات الحية في البحث وعملية الحجز.",
+    description: "A web application displaying various medical specialties and a list of doctors. It allows users to search for a specific doctor based on specialization and book an appointment.",
+    challenge: "Developing an efficient search filtering system to display relevant doctors by specialty and managing the multi-step booking process state.",
+    solution: "Leveraged Next.js Server-Side Rendering (SSR) for fast initial loading of doctor lists, and used React state to manage real-time interactions during search and the booking flow.",
     features: [
-      "البحث عن الأطباء حسب التخصص",
-      "عرض ملفات الأطباء والتخصصات",
-      "نظام حجز مواعيد",
-      "لوحة تحكم للمستخدم (Dashboard UI)",
-      "أداء عالي وسرعة في التحميل"
+      "Doctor Search by Specialty",
+      "Doctor Profiles & Specialties Display",
+      "Appointment Booking System",
+      "User Dashboard UI",
+      "High Performance & Fast Loading"
     ],
     stack: ["Next.js", "HTML", "CSS", "JavaScript"],
     links: {
@@ -75,16 +73,16 @@ export const projectsData = [
     id: 10,
     title: "Lean Template",
     category: "Educational Project / PSD to HTML",
-    tagline: "قالب تصميم بسيط ونظيف يركز على أساسيات التصميم.",
+    tagline: "A simple, clean design template focusing on design fundamentals.",
     date: "Dec 2023",
-    description: "مشروع تعليمي يهدف إلى تحويل تصميم ثابت (PSD/Figma) إلى كود HTML و CSS نظيف ومتجاوب. يركز على البنية الدلالية (Semantic HTML) وتنسيقات CSS الحديثة.",
-    challenge: "الحفاظ على دقة التصميم الأصلية في جميع أحجام الشاشات دون الاعتماد على أطر عمل (Frameworks) جاهزة.",
-    solution: "استخدام تقنيات CSS الحديثة مثل Flexbox و Media Queries لبناء هيكل مرن ومتجاوب تماماً مع التصميم المطلوب.",
+    description: "An educational project aiming to convert a static design (PSD/Figma) into clean, responsive HTML and CSS code. It focuses on semantic HTML structure and modern CSS layouts.",
+    challenge: "Maintaining design fidelity across all screen sizes without relying on external CSS frameworks.",
+    solution: "Used modern CSS techniques like Flexbox and Media Queries to build a flexible structure fully responsive to the required design.",
     features: [
-      "كود HTML5 دلالي ونظيف",
-      "تصميم متجاوب بالكامل",
-      "تنسيقات CSS مخصصة",
-      "توافق مع مختلف المتصفحات"
+      "Semantic HTML5 Code",
+      "Fully Responsive Design",
+      "Custom CSS Styling",
+      "Cross-Browser Compatibility"
     ],
     stack: ["HTML", "CSS"],
     links: {
@@ -92,7 +90,7 @@ export const projectsData = [
       repo: "https://github.com/username/lean-template",
     },
     images: [
-      "/imgs/projects/10/1.jpg",
+      "/imgs/projects/10/1.jpg", // First image is jpg
       "/imgs/projects/10/2.png",
       "/imgs/projects/10/3.png",
       "/imgs/projects/10/4.png",
@@ -104,17 +102,17 @@ export const projectsData = [
     id: 11,
     title: "Elzero Template",
     category: "Educational Project / PSD to HTML",
-    tagline: "قالب شامل لتطبيق تقنيات التخطيط المتقدمة في CSS.",
+    tagline: "A comprehensive template applying advanced CSS layout techniques.",
     date: "Nov 2023",
-    description: "مشروع تعليمي من مسار Elzero Web School، يمثل تحدياً متكاملاً لتحويل تصميم غني بالعناصر إلى صفحة ويب. يركز على التعامل مع التخطيطات المعقدة.",
-    challenge: "إدارة وتنظيم ملفات CSS لمشروع كبير يحتوي على العديد من الأقسام المتنوعة والتأثيرات البصرية.",
-    solution: "اتباع منهجية منظمة في كتابة CSS، وتقسيم التنسيقات بناءً على الأقسام، واستخدام CSS Grid و Flexbox بشكل مكثف لضبط المحاذات.",
+    description: "An educational project from Elzero Web School, representing a complete challenge to convert a rich design into a webpage. Focuses on handling complex layouts.",
+    challenge: "Managing and organizing CSS files for a large project containing many diverse sections and visual effects.",
+    solution: "Followed a structured methodology in writing CSS, dividing styles based on sections, and extensively using CSS Grid and Flexbox for alignment.",
     features: [
-      "تخطيطات CSS معقدة (Grid/Flex)",
-      "تصميم غني بالعناصر البصرية",
-      "متجاوب مع جميع الشاشات",
-      "استخدام أيقونات Font Awesome",
-      "تأثيرات Hover إبداعية"
+      "Complex CSS Layouts (Grid/Flex)",
+      "Visually Rich Design",
+      "Responsive on All Screens",
+      "Font Awesome Icons Integration",
+      "Creative Hover Effects"
     ],
     stack: ["HTML", "CSS"],
     links: {
@@ -142,16 +140,16 @@ export const projectsData = [
     id: 12,
     title: "Kasper Template",
     category: "Educational Project / PSD to HTML",
-    tagline: "قالب إبداعي يركز على اللمسات الفنية والتأثيرات البصرية.",
+    tagline: "A creative template focusing on artistic touches and visual effects.",
     date: "Oct 2023",
-    description: "مشروع تعليمي يهدف إلى تنفيذ تصميم فني وإبداعي. يركز هذا المشروع على استخدام CSS لإنشاء تأثيرات بصرية متقدمة وتصميمات غير تقليدية.",
-    challenge: "تنفيذ العناصر الفنية المتقدمة في التصميم، مثل تداخل الصور، والأشكال المخصصة، وتأثيرات الانتقال المعقدة باستخدام CSS فقط.",
-    solution: "الاعتماد المكثف على العناصر الزائفة (Pseudo-elements ::before, ::after) والتموضع المطلق (Absolute Positioning) لخلق الطبقات والتأثيرات المطلوبة.",
+    description: "An educational project aimed at implementing an artistic design. This project focuses on using CSS to create advanced visual effects and unconventional layouts.",
+    challenge: "Implementing advanced artistic elements like image overlapping, custom shapes, and complex transition effects using only CSS.",
+    solution: "Heavily relied on Pseudo-elements (::before, ::after) and Absolute Positioning to create the required layers and effects.",
     features: [
-      "تأثيرات CSS إبداعية ومتقدمة",
-      "تصميم معرض أعمال (Portfolio Grid)",
-      "طابع بصري داكن وأنيق",
-      "متجاوب وسلس"
+      "Advanced Creative CSS Effects",
+      "Portfolio Grid Design",
+      "Dark Elegant Visual Theme",
+      "Smooth & Responsive"
     ],
     stack: ["HTML", "CSS"],
     links: {
@@ -159,7 +157,7 @@ export const projectsData = [
       repo: "https://github.com/username/kasper-template",
     },
     images: [
-      "/imgs/projects/12/1.jpg",
+      "/imgs/projects/12/1.jpg", // First image is jpg
       "/imgs/projects/12/2.png",
       "/imgs/projects/12/3.png",
       "/imgs/projects/12/4.png",
@@ -174,16 +172,16 @@ export const projectsData = [
     id: 13,
     title: "Frontend Mentor - FAQ Accordion",
     category: "Frontend Challenge / UI Component",
-    tagline: "مكون واجهة مستخدم تفاعلي لعرض الأسئلة الشائعة.",
+    tagline: "An interactive UI component for displaying frequently asked questions.",
     date: "Sep 2023",
-    description: "حل لتحدي من منصة Frontend Mentor. الهدف هو بناء مكون أكورديون (Accordion) تفاعلي ومتجاوب لعرض وإخفاء الإجابات على الأسئلة الشائعة.",
-    challenge: "جعل الأكورديون تفاعلياً وسلس الحركة، مع ضمان إمكانية الوصول (Accessibility) وسهولة الاستخدام على الأجهزة المحمولة.",
-    solution: "استخدام JavaScript بسيط للتحكم في فئات CSS (Classes) عند النقر لفتح وإغلاق العناصر، مع استخدام CSS Transitions لإضافة حركة سلسة.",
+    description: "A solution to a Frontend Mentor challenge. The goal is to build an interactive, responsive accordion component to show and hide answers to FAQs.",
+    challenge: "Making the accordion interactive with smooth animations while ensuring accessibility and usability on mobile devices.",
+    solution: "Used simple JavaScript to toggle CSS classes on click to open/close elements, combined with CSS Transitions for smooth movement.",
     features: [
-      "واجهة مستخدم تفاعلية (Accordion)",
-      "حركات انتقال سلسة (Smooth Transitions)",
-      "تصميم متجاوب (Mobile-First)",
-      "كود HTML سهل الوصول (Accessible)"
+      "Interactive Accordion UI",
+      "Smooth Transitions",
+      "Mobile-First Responsive Design",
+      "Accessible HTML Code"
     ],
     stack: ["HTML", "CSS", "JavaScript"],
     links: {
@@ -199,16 +197,16 @@ export const projectsData = [
     id: 14,
     title: "Bondi Template",
     category: "Educational Project / PSD to HTML",
-    tagline: "صفحة هبوط احترافية مبنية على نظام شبكي (Grid System).",
+    tagline: "A professional landing page built on a solid grid system.",
     date: "Aug 2023",
-    description: "مشروع تعليمي لمحاكاة بناء قوالب احترافية مشابهة لتلك المبنية بإطار عمل Bootstrap. يركز على بناء نظام شبكي قوي وتصميم أقسام احترافية.",
-    challenge: "محاكاة نظام الأعمدة والشبكات الموجود في أطر العمل الشهيرة باستخدام CSS Grid و Flexbox الأصلي.",
-    solution: "بناء نظام Utility Classes مخصص في CSS للتحكم في الأعمدة والمسافات، مما يسهل بناء تخطيطات متناسقة عبر كامل الموقع.",
+    description: "An educational project intended to simulate building professional templates similar to those built with Bootstrap. Focuses on building a strong grid system and professional section designs.",
+    challenge: "Simulating the column and grid systems found in popular frameworks using native CSS Grid and Flexbox.",
+    solution: "Built a custom system of CSS Utility Classes to control columns and spacing, facilitating the construction of consistent layouts across the site.",
     features: [
-      "تصميم صفحة هبوط حديث",
-      "نظام شبكي متجاوب (Responsive Grid)",
-      "لوحة ألوان احترافية",
-      "أقسام مصممة بعناية"
+      "Modern Landing Page Design",
+      "Responsive Grid System",
+      "Professional Color Palette",
+      "Carefully Designed Sections"
     ],
     stack: ["HTML", "CSS"],
     links: {
@@ -229,16 +227,16 @@ export const projectsData = [
     id: 15,
     title: "Frontend Mentor - Blog Preview Card",
     category: "Frontend Challenge / UI Component",
-    tagline: "تطبيق دقيق لتصميم بطاقة معاينة مقال.",
+    tagline: "A precise implementation of a blog article preview card design.",
     date: "Jul 2023",
-    description: "حل لتحدي من Frontend Mentor يهدف إلى بناء بطاقة (Card) لمعاينة مقال مدونة. يركز على الدقة في تنفيذ التصميم والأبعاد.",
-    challenge: "ضمان تطابق النتيجة النهائية مع التصميم المطلوب تماماً (Pixel-Perfect) على مختلف أحجام الشاشات.",
-    solution: "استخدام Flexbox لهيكلة البطاقة، مع الاعتماد على وحدات قياس نسبية و Media Queries لضبط الحواف والخطوط بدقة.",
+    description: "A solution to a Frontend Mentor challenge aimed at building a card component for previewing a blog post. Focuses on design accuracy and dimensions.",
+    challenge: "Ensuring the final result matches the required design exactly (Pixel-Perfect) across various screen sizes.",
+    solution: "Used Flexbox to structure the card, relying on relative measuring units and Media Queries to adjust borders and fonts precisely.",
     features: [
-      "تنفيذ دقيق للتصميم (Pixel-Perfect)",
-      "مكون واجهة مستخدم متجاوب",
-      "تأثيرات Hover بسيطة",
-      "هيكلية CSS نظيفة"
+      "Pixel-Perfect Design Implementation",
+      "Responsive UI Component",
+      "Simple Hover Effects",
+      "Clean CSS Structure"
     ],
     stack: ["HTML", "CSS"],
     links: {
@@ -254,16 +252,16 @@ export const projectsData = [
     id: 16,
     title: "Frontend Mentor - Newsletter Sign-up",
     category: "Frontend Challenge / UI Component",
-    tagline: "نموذج تسجيل في نشرة بريدية مع تحقق من البيانات.",
+    tagline: "A newsletter sign-up form with data validation.",
     date: "Jun 2023",
-    description: "حل لتحدي من Frontend Mentor لبناء نموذج تسجيل في نشرة بريدية. يتطلب التحدي التحقق من صحة البريد الإلكتروني المدخل وعرض رسالة نجاح أو خطأ.",
-    challenge: "التعامل مع منطق التحقق من صحة النماذج (Form Validation) في الواجهة الأمامية وتغيير حالة الواجهة بناءً على النتيجة.",
-    solution: "استخدام JavaScript للاستماع لحدث إرسال النموذج، والتحقق من صيغة البريد الإلكتروني باستخدام Regex، ثم التلاعب بالـ DOM لإظهار رسائل الخطأ أو شاشة النجاح.",
+    description: "A solution to a Frontend Mentor challenge to build a newsletter sign-up form. The challenge requires validating the inputted email and displaying success or error messages.",
+    challenge: "Handling client-side form validation logic and changing the UI state based on the result.",
+    solution: "Used JavaScript to listen for the form submission event, validated the email format using Regex, and manipulated the DOM to show error messages or the success screen.",
     features: [
-      "التحقق من صحة النموذج (Client-side Validation)",
-      "حالات ديناميكية للنجاح والخطأ",
-      "تصميم متجاوب",
-      "واجهة مستخدم تفاعلية"
+      "Client-side Form Validation",
+      "Dynamic Success/Error States",
+      "Responsive Design",
+      "Interactive User Interface"
     ],
     stack: ["HTML", "CSS", "JavaScript"],
     links: {
