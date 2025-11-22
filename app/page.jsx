@@ -21,7 +21,7 @@ import {
   SiNextdotjs, SiReact, SiTailwindcss, SiTypescript, SiNodedotjs, 
   SiMongodb, SiDocker, SiGit, SiFigma, SiPostgresql, SiGraphql, SiPrisma 
 } from "react-icons/si";
-
+import { projectsData } from "@/data/projectsData"; // تأكد من المسار الصحيح
 // Styles Imports
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -643,16 +643,16 @@ import { FiGithub, FiExternalLink, FiGithubOutline  } from "react-icons/fi";
 
 function Works() {
   const controls = useAnimation();
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [active, setActive] = useState("All");
 
   useEffect(() => { if (inView) controls.start("visible"); }, [controls, inView]);
 
-  // استخراج التصنيفات الفريدة
-  const categories = useMemo(() => ["All", ...Array.from(new Set(PROJECTS_DATA.map(p => p.type)))], []);
+  // 1. استخراج التصنيفات الفريدة من البيانات الجديدة (نستخدم category بدلاً من type)
+  const categories = useMemo(() => ["All", ...Array.from(new Set(projectsData.map(p => p.category)))], []);
   
-  // تصفية المشاريع
-  const filtered = useMemo(() => active === "All" ? PROJECTS_DATA : PROJECTS_DATA.filter(p => p.type === active), [active]);
+  // 2. تصفية المشاريع
+  const filtered = useMemo(() => active === "All" ? projectsData : projectsData.filter(p => p.category === active), [active]);
 
   return (
     <section id="projects" className="relative z-10 bg-transparent py-24">
@@ -698,10 +698,10 @@ function Works() {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((project, index) => (
+            {filtered.map((project) => (
               <motion.article
-                
-                key={project.id || index} // يفضل استخدام id فريد
+                layout
+                key={project.id} 
                 initial={{ opacity: 0, scale: 0.9 }} 
                 animate={{ opacity: 1, scale: 1 }} 
                 exit={{ opacity: 0, scale: 0.9 }} 
@@ -709,14 +709,15 @@ function Works() {
                 className="group relative bg-card/40 border border-white/10 rounded-[2rem] overflow-hidden hover:border-primary/40 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
               >
                 {/* --- Image Container (Link to Details) --- */}
-                <Link href={`/projects/${project.id}`} className="block relative h-60 overflow-hidden cursor-pointer">
-                  {/* صورة المشروع */}
+                {/* لاحظ الرابط الديناميكي هنا */}
+                <Link href={`/projects/${project.id}`} className="block relative h-60 overflow-hidden cursor-pointer bg-zinc-900">
+                  {/* صورة المشروع: نأخذ أول صورة في المصفوفة */}
                   <img 
-                    src={project.img} 
-                    alt={project.name} 
+                    src={project.images[0]} 
+                    alt={project.title} 
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
                     loading="lazy"
-                    onError={(e) => e.currentTarget.src = 'https://placehold.co/600x400/1e1e2e/6366f1?text=Project'}
+                    onError={(e) => e.currentTarget.src = 'https://placehold.co/600x400/1e1e2e/6366f1?text=No+Image'}
                   />
                   
                   {/* Overlay Dark Gradient */}
@@ -724,12 +725,12 @@ function Works() {
 
                   {/* Category Badge (Top Left) */}
                   <div className="absolute top-4 left-4 z-20">
-                     <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] text-white font-bold uppercase tracking-wider shadow-lg">
-                       {project.type}
-                     </span>
+                      <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] text-white font-bold uppercase tracking-wider shadow-lg">
+                        {project.category}
+                      </span>
                   </div>
 
-                  {/* ✨ View Details Button (Centered, appears on hover) */}
+                  {/* ✨ View Details Button */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-30">
                     <span className="px-6 py-3 rounded-full bg-primary/90 text-white font-bold text-sm flex items-center gap-2 backdrop-blur-sm shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       View Details <GoArrowRight className="text-lg" />
@@ -741,31 +742,31 @@ function Works() {
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex justify-between items-start mb-3">
                     <Link href={`/projects/${project.id}`} className="group-hover:text-primary transition-colors">
-                      <h3 className="text-2xl font-bold text-white leading-tight">{project.name}</h3>
+                      <h3 className="text-2xl font-bold text-white leading-tight">{project.title}</h3>
                     </Link>
                     
                     {/* Quick External Links */}
                     <div className="flex gap-2">
-                       {project.live && (
-                         <a href={project.live} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-zinc-400 hover:bg-white hover:text-black transition-colors" title="Live Demo">
-                           <GoArrowUpRight size={18} />
-                         </a>
-                       )}
-                       {project.source && (
-                         <a href={project.source} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-zinc-400 hover:bg-white hover:text-black transition-colors" title="Source Code">
-                           <FiGithub size={18} />
-                         </a>
-                       )}
+                        {project.links.live && (
+                          <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-zinc-400 hover:bg-white hover:text-black transition-colors" title="Live Demo">
+                            <GoArrowUpRight size={18} />
+                          </a>
+                        )}
+                        {project.links.repo && (
+                          <a href={project.links.repo} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 text-zinc-400 hover:bg-white hover:text-black transition-colors" title="Source Code">
+                            <FiGithub size={18} />
+                          </a>
+                        )}
                     </div>
                   </div>
                   
                   <p className="text-zinc-400 text-sm mb-6 line-clamp-3 flex-grow leading-relaxed">
-                    {project.description}
+                    {project.tagline} {/* استخدمنا tagline لأنه أقصر ومناسب للكارد */}
                   </p>
                   
-                  {/* Tags */}
+                  {/* Stack Tags */}
                   <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
-                    {project.tags && project.tags.slice(0, 3).map((tag, i) => (
+                    {project.stack && project.stack.slice(0, 3).map((tag, i) => (
                       <span key={i} className="px-2.5 py-1 rounded-lg bg-white/5 text-[11px] font-medium text-zinc-300 border border-white/5">
                         {tag}
                       </span>
