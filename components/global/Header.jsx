@@ -11,6 +11,7 @@ export default function Header() {
 
   const menuItems = useMemo(
     () => [
+      { label: "About", href: "#about" },
       { label: "Skills", href: "#skills" },
       { label: "Services", href: "#services" },
       { label: "Projects", href: "#projects" },
@@ -20,13 +21,13 @@ export default function Header() {
   );
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 8);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Scrollspy (JS فقط)
+  // Scrollspy
   useEffect(() => {
     const sectionIds = menuItems.map((m) => m.href.replace("#", ""));
     const sections = sectionIds
@@ -63,36 +64,35 @@ export default function Header() {
   return (
     <>
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="fixed top-0 inset-x-0 z-[100]"
-        aria-label="Main navigation"
       >
-        {/* خلفية زجاجية بعرض كامل الشاشة */}
+        {/* خلفية زجاجية محسنة */}
         <div
           className={[
-            "pointer-events-none absolute inset-x-0 top-0 h-[74px] -z-10 transition-all duration-300",
+            "absolute inset-0 transition-all duration-500",
             isScrolled
-              ? "bg-background/55 backdrop-blur-md border-b border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+              ? "bg-background/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/5"
               : "bg-transparent",
           ].join(" ")}
         />
-        {/* طبقة تدرّج رقيقة على الأطراف (اختياري) */}
 
-        {/* محتوى محدود العرض */}
-        <div className="mx-auto max-w-7xl px-6 md:px-8 h-[74px] flex items-center justify-between relative">
+        {/* ✨ المحتوى محكوم بـ max-w-6xl ليتطابق مع باقي الموقع */}
+        <div className="relative mx-auto max-w-6xl px-4 md:px-6 h-20 flex items-center justify-between">
+          
           {/* Logo */}
           <a href="#" className="relative z-10 inline-flex items-center gap-2 group">
-            <span className="grid place-items-center size-8 rounded-lg bg-main/20 text-main border border-main/30 transition group-hover:bg-main/30">
-              <span className="text-[12px] font-black">TH</span>
-            </span>
-            <span className="font-extrabold tracking-wide">TAIBI HAKIM</span>
+            <div className="grid place-items-center size-9 rounded-xl bg-primary/10 text-primary border border-primary/20 transition-colors group-hover:bg-primary group-hover:text-white">
+              <span className="text-sm font-black">TH</span>
+            </div>
+            <span className="font-bold tracking-tight text-white">TAIBI HAKIM</span>
           </a>
 
           {/* Desktop Nav */}
-          <nav className="relative z-10 hidden lg:flex items-center gap-10">
-            <ul className="flex items-center gap-8 uppercase text-[13px] font-semibold">
+          <nav className="hidden lg:flex items-center gap-8">
+            <ul className="flex items-center gap-6 text-sm font-medium text-zinc-400">
               {menuItems.map((item) => {
                 const isActive = activeId === item.href.replace("#", "");
                 return (
@@ -100,55 +100,47 @@ export default function Header() {
                     <a
                       href={item.href}
                       className={[
-                        "transition-colors",
-                        isActive ? "text-white" : "text-white/75 hover:text-white",
+                        "transition-colors hover:text-white",
+                        isActive ? "text-white" : "",
                       ].join(" ")}
                     >
                       {item.label}
                     </a>
-                    {/* underline بعرض النص فقط */}
-                    <span
-                      className={[
-                        "absolute left-0 -bottom-1 h-0.5 bg-main transition-all duration-300",
-                        isActive ? "w-full" : "w-0 group-hover:w-full",
-                      ].join(" ")}
-                    />
+                    {/* Active Indicator */}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-indicator"
+                        className="absolute left-0 -bottom-1 w-full h-0.5 bg-primary rounded-full"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
                   </li>
                 );
               })}
             </ul>
+            
+            {/* CTA Button */}
             <a
               href="#contact"
-              className="rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold hover:border-main hover:shadow-[0_0_0_3px_rgba(234,179,8,0.15)] transition"
+              className="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-white text-sm font-bold hover:bg-white/10 hover:border-primary/50 transition-all"
             >
               Let’s Talk
             </a>
           </nav>
 
-          {/* Mobile toggle */}
-          <div className="relative z-10 text-2xl lg:hidden">
+          {/* Mobile Menu Toggle */}
+          <div className="relative z-10 lg:hidden">
             <button
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               onClick={() => setIsMenuOpen((s) => !s)}
-              className="rounded-lg border border-white/10 bg-white/5 p-2 backdrop-blur hover:bg-white/10 transition"
+              className="p-2 text-2xl text-white focus:outline-none"
             >
               <AnimatePresence mode="wait">
                 {isMenuOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                  >
+                  <motion.span key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
                     <IoClose />
                   </motion.span>
                 ) : (
-                  <motion.span
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                  >
+                  <motion.span key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
                     <IoMenu />
                   </motion.span>
                 )}
@@ -158,22 +150,25 @@ export default function Header() {
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
-            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[99] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-[99] flex flex-col items-center justify-center bg-background/95 backdrop-blur-2xl lg:hidden"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(50%_50%_at_80%_0%,rgba(234,179,8,0.12),transparent_60%),radial-gradient(60%_60%_at_20%_100%,rgba(99,102,241,0.12),transparent_60%)] bg-background" />
+            {/* Decoration */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-[100px] pointer-events-none" />
+
             <motion.ul
               variants={menuVariants}
               initial="hidden"
               animate="visible"
-              className="relative flex flex-col gap-8 text-center"
+              className="relative flex flex-col gap-6 text-center"
             >
               {menuItems.map((item) => {
                 const isActive = activeId === item.href.replace("#", "");
@@ -183,8 +178,8 @@ export default function Header() {
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className={[
-                        "text-4xl font-extrabold tracking-tight transition-colors",
-                        isActive ? "text-main" : "text-gray-300 hover:text-white",
+                        "text-4xl font-black tracking-tighter transition-colors",
+                        isActive ? "text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent" : "text-zinc-400 hover:text-white",
                       ].join(" ")}
                     >
                       {item.label}
@@ -192,11 +187,11 @@ export default function Header() {
                   </motion.li>
                 );
               })}
-              <motion.li variants={menuItemVariants} className="pt-4">
+              <motion.li variants={menuItemVariants} className="pt-8">
                 <a
                   href="#contact"
                   onClick={() => setIsMenuOpen(false)}
-                  className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-lg font-semibold hover:border-main transition"
+                  className="inline-flex px-8 py-4 rounded-full bg-primary text-white font-bold text-lg shadow-lg shadow-primary/25"
                 >
                   Let’s Talk
                 </a>
