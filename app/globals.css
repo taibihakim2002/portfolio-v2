@@ -56,6 +56,12 @@
     perspective: 1000px;
     will-change: transform, opacity;
   }
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform, opacity;
+  }
   html {
     scroll-behavior: smooth;
     overflow-x: hidden; /* يمنع الاهتزاز الافقي */

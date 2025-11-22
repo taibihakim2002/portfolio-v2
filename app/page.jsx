@@ -155,14 +155,13 @@ function Fixed({ id }) {
 // استبدل دالة GlobalBackground الحالية بهذه:
 function GlobalBackground() {
   return (
-    // إضافة force-gpu لمنع إعادة المعالجة عند السكرول
-    <div className="fixed inset-0 z-0 pointer-events-none force-gpu">
-      {/* Noise - استخدام صورة خفيفة جداً */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light"></div>
+    <div className="fixed inset-0 z-0 pointer-events-none">
+      {/* Noise */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-soft-light"></div>
       
-      {/* الغلوز (Glows) - نضيف لها translate3d لتثبيتها في الذاكرة */}
-      <div className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] bg-primary/10 rounded-full blur-[120px] force-gpu" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] force-gpu" />
+      {/* الكرات الملونة - تم تقليل الـ Blur قليلاً وإضافة gpu-accelerated */}
+      <div className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] bg-primary/10 rounded-full blur-[80px] gpu-accelerated" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/5 rounded-full blur-[80px] gpu-accelerated" />
     </div>
   );
 }
@@ -431,7 +430,7 @@ function SkillCard({ skill }) {
 
   return (
     <motion.div
-      layout
+      
       initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}
       onMouseMove={handleMouseMove}
       className="group relative rounded-xl border border-border bg-card/40 p-4 hover:border-primary/50 overflow-hidden"
@@ -497,7 +496,7 @@ function Skills() {
           <AnimatePresence mode="popLayout">
             {filteredSkills.map((skill) => (
               <motion.div
-                layout
+                
                 key={skill.name}
                 initial={{ opacity: 0, scale: 0.9 }} 
                 animate={{ opacity: 1, scale: 1 }} 
@@ -701,7 +700,7 @@ function Works() {
           <AnimatePresence mode="popLayout">
             {filtered.map((project, index) => (
               <motion.article
-                layout
+                
                 key={project.id || index} // يفضل استخدام id فريد
                 initial={{ opacity: 0, scale: 0.9 }} 
                 animate={{ opacity: 1, scale: 1 }} 
