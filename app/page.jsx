@@ -152,18 +152,21 @@ function Fixed({ id }) {
 }
 
 // ✨ الخلفية الجديدة الموحدة (من التصميم الجديد)
+// استبدل دالة GlobalBackground الحالية بهذه:
 function GlobalBackground() {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none">
-      {/* Noise Texture */}
+    // إضافة force-gpu لمنع إعادة المعالجة عند السكرول
+    <div className="fixed inset-0 z-0 pointer-events-none force-gpu">
+      {/* Noise - استخدام صورة خفيفة جداً */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light"></div>
-      {/* Top Left Glow */}
-      <div className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] bg-primary/10 rounded-full blur-[120px]" />
-      {/* Bottom Right Glow */}
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px]" />
+      
+      {/* الغلوز (Glows) - نضيف لها translate3d لتثبيتها في الذاكرة */}
+      <div className="absolute top-[-20%] left-[-10%] w-[700px] h-[700px] bg-primary/10 rounded-full blur-[120px] force-gpu" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] force-gpu" />
     </div>
   );
 }
+
 
 function Hero() {
   const controls = useAnimation();
@@ -278,13 +281,13 @@ function Hero() {
 
             {/* الوصف */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="max-w-lg mx-auto lg:mx-0 text-lg text-zinc-400 leading-relaxed mb-8"
-            >
-              I architect and build scalable, high-performance web applications using the <span className="text-white font-semibold border-b border-primary/50">MERN Stack</span>. Focused on clean code and exceptional user experiences.
-            </motion.p>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8, delay: 0.4 }}
+  className="max-w-lg mx-auto lg:mx-0 text-lg text-zinc-400 leading-relaxed mb-8"
+>
+  Building scalable, high-performance web applications with the <span className="text-white font-semibold border-b border-primary/50">MERN Stack</span>.
+</motion.p>
 
             {/* الأزرار */}
             <motion.div
